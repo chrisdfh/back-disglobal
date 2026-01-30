@@ -1,0 +1,80 @@
+<p>{{data.titulo}}</p>
+
+<div [formGroup]="form">
+    <div class="container" >
+        <div class="row px-2">
+            <div class=" col-6 col-md-3 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>
+                        Número Afiliado
+                    </mat-label>
+                    <input matInput #inputAfiliado type="number" formControlName="nroafiliado" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class=" col-6 col-md-3 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>
+                        Número de Doc
+                    </mat-label>
+                    <input matInput type="text" formControlName="codnip" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class=" col-6 col-md-3 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput placeholder=""  formControlName="nombrecompleto" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class=" col-6 col-md-3 p-1">
+                <mat-form-field>
+                    <mat-label>
+                        Alias
+                    </mat-label>
+                    <input matInput formControlName="alias" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="botonera">
+    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+</div>
+
+
+
+<div #tableContainer class="container table-container multiple-buttons" >
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8" *ngIf="dataSource.results" >
+
+        <ng-container matColumnDef="nroafiliado">
+            <th mat-header-cell *matHeaderCellDef style="width:10%" class="text-center"> No. Afiliado </th>
+            <td mat-cell *matCellDef="let element" style="width:10%" class="text-center"> {{element.nroafiliado}} </td>
+        </ng-container>
+        <ng-container matColumnDef="codnip">
+            <th mat-header-cell *matHeaderCellDef style="width:10%" class="text-center"> No. Doc </th>
+            <td mat-cell *matCellDef="let element" style="width:10%" class="text-center"> {{element.codnip}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombrecorto">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombrecorto}} </td>
+        </ng-container>
+        <ng-container matColumnDef="alias">
+            <th mat-header-cell *matHeaderCellDef> Alias </th>
+            <td mat-cell *matCellDef="let element"> {{element.alias}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectRowClick(row)"></tr>
+    </table>
+</div>
+
+
+<mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+[nextPageLabel]="'Siguiente'"
+(page)="onPageChange($event)"
+*ngIf="dataSource.results"></mat-paginator>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

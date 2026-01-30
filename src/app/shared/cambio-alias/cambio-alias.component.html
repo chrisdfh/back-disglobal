@@ -1,0 +1,66 @@
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Cambio de Alias
+        </h2>
+    </div>
+</div>
+
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="getUsuario()">Buscar Usuario</button>
+</div>
+
+<div class="botonera-seleccion-usuario d-none">
+    <button mat-button color="primary" (click)="getAfiliado()">Afiliado</button>
+    <button mat-button color="primary" (click)="getAliado()">Aliado</button>
+    <button mat-button color="primary" (click)="getTasker()">Tasker</button>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para cambiar el <span class="fw-bold">Alias</span> de un usuario, seleccione uno del catálogo, asigne uno nuevo y haga click sobre el botón "Cambiar Alias".
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="passwordChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{passwordChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Alias
+                        </mat-label>
+                        <input matInput type="text" placeholder="imp2002" readonly formControlName="alias">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Alias (nuevo)
+                        </mat-label>
+                        <input matInput type="text" placeholder="imp2004" formControlName="alias_new" (keyup)="formatAlias($event)">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="changeUsername()" [disabled]="form.value.alias===''">
+                        <mat-icon>manage_accounts</mat-icon>
+                        Cambiar Alias
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

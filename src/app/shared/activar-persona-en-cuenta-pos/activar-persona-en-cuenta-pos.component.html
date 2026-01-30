@@ -1,0 +1,224 @@
+<p class="mb-0">{{data.titulo}} </p>
+
+<div class="container h-sp"  [formGroup]="form">
+    <div class="row h-100 gap-1">
+        <div class="col-12">
+            <div class="msg pt-4">
+                {{data.msg}}
+            </div>
+        </div>
+        <div class="col-12 mb-0">
+            <b>Nro Persona: {{data.nropersona}}</b>
+        </div>
+        <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    URL Avatar 1 (IDENTIFICACIÓN DE LA PERSONA EN CUENTA) (+)
+                </mat-label>
+                <input #inputQuery matInput type="url" placeholder="https://" formControlName="avatar" (keyUp.enter)="sendInput()">
+
+                <button title="Subir Avatar" mat-mini-fab type="button" #formButton class="btn" mat-button matSuffix (click)="uploadFile('avatar','avatar_1','Avatar #1')" >
+                    <mat-icon>add_link</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <!-- <div class="col-12 col-md-6 mb-1 pr-md-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    URL Avatar 2 (DISEÑO DE LA PLANTILLA)
+                </mat-label>
+                <input #inputQuery matInput type="url" placeholder="https://" formControlName="avatar2" (keyUp.enter)="sendInput()">
+                <button title="Subir Avatar" mat-mini-fab type="button" #formButton class="btn" mat-button matSuffix (click)="uploadFile('avatar2','avatar_2','Avatar #2')" >
+                    <mat-icon>add_link</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-1 pl-md-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    URL Avatar 3
+                </mat-label>
+                <input #inputQuery matInput type="url" placeholder="https://" formControlName="avatar3" (keyUp.enter)="sendInput()">
+                <button title="Subir Avatar" mat-mini-fab type="button" #formButton class="btn" mat-button matSuffix (click)="uploadFile('avatar3','avatar_3','Avatar #3')" >
+                    <mat-icon>add_link</mat-icon>
+                </button>
+            </mat-form-field>
+        </div> -->
+        <!-- <div class="col-md-3 col-6 pr-1 mb-1">
+            <mat-form-field>
+                <mat-label>
+                    Participación Tipo
+                </mat-label>
+                <mat-select #partTipo  formControlName="participacionTipo" >
+                    <mat-option value='D'>Por Defecto</mat-option>
+                    <mat-option value='P'>Principal</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-6 pl-1 mb-1 pr-1">
+            <mat-form-field>
+                <mat-label>
+                    Participación
+                </mat-label>
+                <input #participacion matInput type="number" placeholder="10" formControlName="participacion" (keyUp.enter)="sendInput()">
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-1 pl-md-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    URL WebHook
+                </mat-label>
+                <input #inputQuery matInput type="url" placeholder="https://" formControlName="url_webhook" (keyUp.enter)="sendInput()">
+            </mat-form-field>
+        </div> -->
+
+
+        <div class="col-12 mt-4">
+            <h6>
+                Información bancaria
+            </h6>
+        </div>
+        
+
+        <div class="col-12  col-md-4 pr-md-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Nombre del Receptor (+)</mat-label>
+                <input matInput placeholder="Ej. Pedro Pérez" formControlName="cta_titular_nombre" maxlength="255">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-3 pl-md-1 pr-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo Doc</mat-label>
+                <mat-select [ngClass]="{'w':!superUser}" formControlName="bancocta_tipnip">
+                    <mat-option [disabled]="!superUser" *ngFor="let tipnip of tablasApoyo.tipNip" 
+                                [value]="tipnip.tipnipcod">
+                                    {{ tipnip.tipnipnombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6  col-md-5 pl-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de documento</mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser" matInput placeholder="123456789" formControlName="bancocta_codnip" maxlength="64" >
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-4 pr-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Banco</mat-label>
+                <mat-select [ngClass]="{'w':!superUser}" formControlName="bancocod">
+                    <mat-option [disabled]="!superUser" *ngFor="let item of tablasApoyo.entidadesFinancieras; let i = index" [value]="item.entidadcod">{{item.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-4 pl-1 pr-md-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo de cuenta</mat-label>
+                <mat-select [ngClass]="{'w':!superUser}" [readonly]="!superUser" formControlName="bancoctatipo" placeholder="Número de cuenta o Teléfono"  (selectionChange)="cambiaLabelPlaceholder($event)">
+                    <mat-option [disabled]="!superUser"  value="CNTA">Número de cuenta 20 dígitos</mat-option>
+                    <mat-option [disabled]="!superUser"  value="CELE">Número de Teléfono</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4 pl-md-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label #cntaLabel></mat-label>
+                <input  [ngClass]="{'w':!superUser}" [readonly]="!superUser" matInput #cntaInput placeholder="." formControlName="bancoctanro" maxlength="20" readonly>
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6 col-md-3 pr-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Código de país</mat-label>
+                <mat-select [ngClass]="{'w':!superUser}"  formControlName="bancocta_telfcodpais">
+                    <mat-option [disabled]="!superUser"  value="+058">Venezuela (+58)</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3  pl-1 pr-md-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Código de área</mat-label>
+                    <mat-select [ngClass]="{'w':!superUser}" formControlName="bancocta_telfcodarea" placeholder="">
+                        <mat-option [disabled]="!superUser" value="412">0412</mat-option>
+                        <mat-option [disabled]="!superUser" value="422">0422</mat-option>
+                        <mat-option [disabled]="!superUser" value="414">0414</mat-option>
+                        <mat-option [disabled]="!superUser" value="424">0424</mat-option>
+                        <mat-option [disabled]="!superUser" value="416">0416</mat-option>
+                        <mat-option [disabled]="!superUser" value="426">0426</mat-option>
+                    </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 pl-md-1">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de teléfono</mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser"  matInput placeholder="0000000" formControlName="bancocta_telefono" maxlength="7" (blur)="telefonoNotificacion()" readonly>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-1 pr-md-1">
+            <mat-form-field>
+                <mat-label>
+                    ChatID de Telegram
+                </mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser"  type="text" inputmode="numeric" placeholder="Ej. 123456789123" matInput formControlName="telegram_chat_id" (keyUp.enter)="sendInput()">
+
+                <button *ngIf="data.email_not && data.email_not !== ''" title="Obtener ChatID" mat-mini-fab type="button" #formButton class="btn d-none" mat-button matSuffix (click)="sendTelegramVerification()" >
+                    <mat-icon>forum</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-1 pl-md-1">
+            <mat-form-field>
+                <mat-label>
+                    Correo para notificaciones
+                </mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser"  type="text" placeholder="Ej. usuario@dominio.com" matInput formControlName="email_not" (keyUp.enter)="sendInput()">
+            </mat-form-field>
+        </div>
+        <div class="col-6 pr-1 mb-1">
+            <mat-form-field>
+                <mat-label>
+                    Tlf para recibir SMS
+                </mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser"  type="text" inputmode="numeric" placeholder="Ej. 584120000000" matInput formControlName="tlf_not_sms" (keyUp.enter)="sendInput()">
+            </mat-form-field>
+        </div>
+        <div class="col-6 pl-1 mb-1">
+            <mat-form-field>
+                <mat-label>
+                    Tlf para notificación WhatsApp
+                </mat-label>
+                <input [ngClass]="{'w':!superUser}" [readonly]="!superUser" type="text" inputmode="numeric" placeholder="Ej. 584120000000" matInput formControlName="tlf_not_ws" (keyUp.enter)="sendInput()">
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <mat-slide-toggle class="mb-1 pr-3" formControlName="activo">
+                Activo
+            </mat-slide-toggle>
+            <mat-slide-toggle class="mb-1 d-none" formControlName="notifica_webhook">
+                Notificar por WebHook
+            </mat-slide-toggle>
+
+
+            <button type="button" *ngIf="data.email_not && data.email_not !== ''" class="btn btn-small" mat-button (click)="validateTgAndSave()" #btnTrue>Vinculación Telegram</button>
+        </div>
+        <div class="col-12">
+            <!-- mat-dialog-actions -->
+            <div class="botonera border-top border-opacity-10"> 
+                <button type="button" class="btn" mat-button (click)="sendInput()" #btnTrue>{{data.btn_true_text}}</button>
+                <button type="button" class="btn" mat-button [mat-dialog-close]="false" #btnFalse>{{data.btn_false_text||'Cancelar'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

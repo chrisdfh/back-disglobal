@@ -1,0 +1,194 @@
+<h2 class="mt-3">
+    Usuario
+</h2>
+<app-crud-bar   (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div #main class="container">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+        <!-- <div class="row">
+            <div class="col-12 text-center">
+                <div *ngIf="personaV.nropersona != null">
+                    Número de persona: {{personaV.nropersona}}
+                </div>
+            </div>
+        </div> -->
+    <div class="row pt-4">
+        <div class="col-12">
+            <div class="extra-info" *ngIf="form.value.nrousuario===null">El usuario se creará con su número de cédula como contraseña inicial</div>
+            <span class="extra-info" [hidden]="form.value.nrousuario===null">
+                Nro usuario: <strong><span #nrousuario >{{form.value.nrousuario}}</span></strong>
+            </span>
+            <span class="extra-info pl-3" [hidden]="form.value.nropersona===null">
+                Nro Persona: <strong><span #nropersona >{{form.value.nropersona}}</span></strong>
+            </span>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col-6 col-md-4 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill" >
+                <mat-label>Tipo Doc</mat-label>
+                <mat-select formControlName="tipnip" (selectionChange)="changeNip($event)" [readonly]="form.value.nrousuario !== null" > 
+                    <mat-option *ngFor="let tipnip of tablasApoyo.tipNip" 
+                                [value]="tipnip.tipnipcod">
+                                    {{ tipnip.tipnipnombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-4 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de Documento</mat-label>
+                <input matInput placeholder="Ej. 1234567" maxlength="30" formControlName="codnip" (blur)="createAlias()"  readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Alias</mat-label>
+                <input matInput placeholder="Ej. pedro" maxlength="64" formControlName="alias" [readonly]="form.value.nrousuario!==null">
+                <mat-hint class="hint-link" (click)="changeAlias()" [hidden]="form.value.nrousuario===null">Cambiar Alias</mat-hint>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row d-none">
+        <div class="col-12 col-md-6 p-0 ">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input class="password-disc" autocomplete="off" type="text" matInput placeholder="Ej. c14v3-5ecr3t4" formControlName="password" [readonly]="form.value.nrousuario!==null">
+                <mat-hint class="hint-link" (click)="resetPassword()" [hidden]="form.value.nrousuario===null">Reiniciar Contraseña</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 p-0 " *ngIf="form.value.nrousuario === null">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Verifique Contraseña</mat-label>
+                <input class="password-disc" autocomplete="off" type="text" matInput placeholder="Ej. c14v3-5ecr3t4" formControlName="password2" [readonly]="form.value.nrousuario!==null">
+                <mat-hint class="color-red" *ngIf="errorPasswd()">Las contraseñas no coinciden</mat-hint>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 col-md-3 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Primer Nombre</mat-label>
+                <input matInput placeholder="Ej. Pedro" maxlength="64" formControlName="nombreprimero" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Segundo Nombre</mat-label>
+                <input matInput placeholder="Ej. Antonio" maxlength="64" formControlName="nombresegundo" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0" [formGroupName]="'persona'">
+            <mat-form-field  class="w-100" appearance="fill">
+                <mat-label>Primer Apellido</mat-label>
+                <input matInput placeholder="Ej. Pérez" maxlength="64" formControlName="apellidoprimero" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Segundo Apellido</mat-label>
+                <input matInput placeholder="Ej. García" maxlength="64" formControlName="apellidosegundo" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Nombre Corto / Nombre Comercial</mat-label>
+                <input matInput placeholder="Ej. García"  formControlName="nombrecorto" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 p-0" [formGroupName]="'persona'">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Nombre Completo / Razón Social</mat-label>
+                <input matInput placeholder="Ej. García"  formControlName="nombrecompleto" readonly>
+            </mat-form-field>
+        </div>
+
+
+    </div>
+
+    <div class="row text-center">
+    <!-- <div class="col-6 col-md-4 p-0">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Apellido de Casada</mat-label>
+            <input matInput placeholder="Ej. Martínez" maxlength="64" formControlName="apellidocasada">
+        </mat-form-field>
+    </div> -->
+    <!-- <div class="col-6 col-md-4 p-0">
+        <mat-form-field class="w-100" appearance="fill" [formGroupName]="'ocupacion_actividad'">
+            <mat-label>Ocupación / Actividad</mat-label>
+            <input matInput placeholder="" formControlName="ocupactivnombre" readonly>
+            <button #formButton class="btn" matSuffix (click)="catalogoOcupacion()">
+                    <mat-icon>search</mat-icon>
+                </button>
+        </mat-form-field>
+    </div> -->
+    <!-- <div class="col-6 col-md-4 p-0">
+        <mat-form-field class="w-100" appearance="fill" [formGroupName]="'nacionalidad'">
+            <mat-label>Nacionalidad</mat-label>
+            <mat-select formControlName="nacionalidadcod" placeholder="">
+                <mat-option *ngFor="let nac of tablasApoyo.nacionalidad" [value]="nac.nacionalidadcod">{{nac.nacionalidadnombre}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Email Principal</mat-label>
+                    <input matInput placeholder="usuario@empresa.com" maxlength="128" formControlName="email_publico" [readonly]="form.value.nrousuario!==null">
+                    <mat-hint class="hint-link" (click)="changeEmail()" [hidden]="form.value.nrousuario===null">Cambiar Correo</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Número telefónico WhatsApp</mat-label>
+                    <input matInput placeholder="584100000000" maxlength="128" formControlName="nro_not_ws" >
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+        <div class="row" [className]="form.value.nrousuario===null ? 'd-none' : ''">
+            <div class="col-12">
+                <mat-accordion>
+                    <mat-expansion-panel expanded>
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Verificaciones
+                                <mat-icon>check</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-3">
+                                <mat-slide-toggle formControlName="correo_verificado" >Correo Verificado</mat-slide-toggle>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <mat-slide-toggle formControlName="tlf_verificado" >Teléfono Verificado</mat-slide-toggle>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <mat-slide-toggle formControlName="ced_rif_verificado" >Doc Identidad Verificado</mat-slide-toggle>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <mat-slide-toggle formControlName="dir_verificado" >Dirección Verificada</mat-slide-toggle>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>ID Chat Telegram</mat-label>
+                                    <input matInput placeholder="Ej 123456789" maxlength="128" formControlName="telegram_chat_id" >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

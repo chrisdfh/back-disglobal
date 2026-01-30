@@ -1,0 +1,110 @@
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Transacciones de XityPay
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="catalogoXityPayCta()">Seleccionar Aliado</button>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Seleccione un aliado para ver sus transacciones
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-2" *ngIf="this.form.value.xpayctanro">
+
+
+    <h3 *ngIf="this.form.value.xpayctanro" class="text-center">
+        {{aliadoNombre}}
+    </h3>
+    <div class="row">
+        <div class="col-12 col-md-6 d-flex justify-content-end align-items-center pr-1">
+            <mat-form-field>
+                <mat-label>Rango de fechas</mat-label>
+                <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+                  <input matStartDate formControlName="fecha_desde" placeholder="Inicio">
+                  <input matEndDate formControlName="fecha_hasta" placeholder="Fin">
+                </mat-date-range-input>
+                <mat-hint>DD/MM/AAAA – DD/MM/AAAA</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 pl-1">
+            <div class="botonera-seleccion-modo" #botonera>
+                <button type="button" mat-button color="primary" (click)="buscarEstatus(null)">Todos</button>
+                <button type="button" mat-button color="primary" (click)="buscarEstatus('ACCP')">Aprobados</button>
+                <button type="button" mat-button color="primary" (click)="buscarEstatus('RJCT')">Rechazados</button>
+                
+            </div>
+        </div>
+        <div class="col-12"[formGroup]="form">
+            <div class="botonera-seleccion-modo justify-content-center align-items-center" #botonera>
+                <h5 class="m-0 pr-1">
+                    {{form.value.personaEnCuentaNombre}}
+                </h5>
+                <button *ngIf="form.value.personaEnCuentaNombre!==null" type="button" class="d-flex" mat-button color="primary" (click)="eliminaFiltros()"><mat-icon>filter_alt_off</mat-icon></button>
+                <button type="button" mat-button color="primary" (click)="buscarPersonaEnCuenta()">Persona En Cuenta</button>
+            </div>
+
+        </div>
+    </div>  
+    <div class="row" *ngIf="dataSource.results">
+        <div class="col-md-8 col-12 m0a mb-3">
+            <div class="pill" *ngFor="let transaccion of dataSource.results">
+                <div  [class]="'pago-button ' + transaccion.status" (click)="viewTransaction(transaccion)">
+                    <div class="left d-flex">
+                        <div class="datos-pago-persona">
+                            <div class="concepto">
+                                {{transaccion.ref_ibp}}
+                            </div>
+                            <div class="nombre">
+                                <div>
+                                    <b>{{transaccion.concepto}}</b>
+                                </div>
+                                <b>{{transaccion.link.referencia}}</b>
+                            </div>
+                            <div class="fecha">
+                                {{formatDate(transaccion.fecha)}} <span class="pl-3">{{transaccion.transaction_id}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="monto">{{drawMoneda(transaccion)}}</div>
+                        <!-- <div class="monto">{{transaccion.moneda}}&nbsp;<span>{{formatNumber(transaccion.monto)}}</span></div> -->
+                        <div [class]="'status-'+transaccion.status">
+                            {{status(transaccion.status)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+            [nextPageLabel]="'Siguiente'"
+            [pageSizeOptions]="[15, 25, 50, 100]"
+            (page)="onPageChange($event)"
+            *ngIf="dataSource.results">
+        </mat-paginator>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

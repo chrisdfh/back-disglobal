@@ -1,0 +1,180 @@
+<h2 class="mt-3">
+    Creación de usuario/persona XityPay
+</h2>
+<div #main class="container mb-5" [formGroup]="form">
+    <div class="pb-4">
+        <small>Campos marcados con (*) son requeridos</small>
+    </div>
+    <div class="row pt-4">
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo Doc</mat-label>
+                <mat-select formControlName="tipnip" (selectionChange)="changeNip($event)">
+                    <mat-option *ngFor="let tipnip of tablasApoyo.tipNip | callback:personaNatural" 
+                                [value]="tipnip.tipnipcod" [disabled]="tipnip.tipnipcod === 'A'">
+                                    {{tipnip.tipnipnombre }}
+                    </mat-option>
+                </mat-select>
+
+
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de Documento</mat-label>
+                <input matInput type="text" inputmode="numeric" placeholder="Ej. 1234567" maxlength="30" formControlName="codnip" (blur)="updatePersonaForm()">
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 p-0">
+
+            <mat-form-field class="w-100" appearance="fill" >
+                <mat-label>Cuenta XityPay Asociada</mat-label>
+                <input matInput placeholder="Cuenta XityPay" formControlName="xpayctanombre" readonly>
+                <button class="btn" matSuffix (click)="catalogoXityPayCta()">
+                        <mat-icon>search</mat-icon>
+                    </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Primer Nombre</mat-label>
+                <input matInput placeholder="Ej. Pedro" maxlength="64" formControlName="nombreprimero">
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Segundo Nombre</mat-label>
+                <input matInput placeholder="Ej. Antonio" maxlength="64" formControlName="nombresegundo">
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field  class="w-100" appearance="fill">
+                <mat-label>Primer Apellido</mat-label>
+                <input matInput placeholder="Ej. Pérez" maxlength="64" formControlName="apellidoprimero">
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Segundo Apellido</mat-label>
+                <input matInput placeholder="Ej. García" maxlength="64" formControlName="apellidosegundo">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-md-3 p-0">
+            <span [formGroupName]="'sexo'">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>
+                        Sexo
+                    </mat-label>
+                    <mat-select formControlName="sexocod">
+                        <mat-option *ngFor="let sex of tablasApoyo.sexo" [value]="sex.sexocod">{{sex.sexonombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </span>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <span [formGroupName]="'edocivil'">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>
+                        Edo. Civil
+                    </mat-label>
+                    <mat-select formControlName="edocivilcod">
+                        <mat-option *ngFor="let edocivil of tablasApoyo.edoCivil" [value]="edocivil.edocivilcod">{{edocivil.edocivilnombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </span>
+        </div>
+        <div class="col-12 col-md-6 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Fch. Nacimiento</mat-label>
+                <input  matInput placeholder="DD/MM/AAAA" formControlName="fechanacimiento"[matDatepicker]="fchNacimiento">
+                <mat-datepicker-toggle matSuffix [for]="fchNacimiento"></mat-datepicker-toggle>
+                <mat-datepicker #fchNacimiento  ></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-12 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Email Principal</mat-label>
+                <input matInput placeholder="usuario@empresa.com" maxlength="128" formControlName="email1">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-12 py-2">
+        <mat-slide-toggle formControlName="creaPersonaEnCuenta">Crear Solo "Persona En Cuenta" (No crea Usuario XityPay)</mat-slide-toggle>
+    </div>
+
+
+    <!-- TELEFONOS -->
+    <mat-accordion>
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-description>
+                    Listado de Teléfonos
+                    <mat-icon>phone_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-list formArrayName="telefonos">
+                <div [formGroupName]="i" *ngFor="let telefono of telefonos.controls; let i = index">
+                        <div class="row border border-radius p-3 mb-3">
+                            <div class="col-12 col-md-3 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Tipo de Teléfono</mat-label>
+                                    <mat-select formControlName="telefonotipcod" placeholder="Tipo de teléfono">
+                                        <mat-option *ngFor="let tipoTel of tablasApoyo.telefonoTipo" [value]="tipoTel.telefonotipcod">{{tipoTel.telefonotipnombre}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-md-2 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>País</mat-label>
+                                    <input matInput formControlName="telefonocodigopais" placeholder="+58">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-md-3 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Area</mat-label>
+                                    <input matInput formControlName="telefonocodigoarea"  placeholder="212">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-3 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Número</mat-label>
+                                    <input matInput formControlName="telefononumero" placeholder="1234567">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-1 p-0">
+                                <div class="d-flex h-100">
+                                    <button class="btn w-100" mat-button (click)="deleteTelefono(i)" *ngIf="visible"><mat-icon>delete</mat-icon></button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <mat-card-actions class="d-flex justify-content-center">
+                    <button class="btn w-100" mat-button (click)="addTelefono(undefined)"><mat-icon>add</mat-icon>Añadir teléfono</button>
+                </mat-card-actions>
+            </mat-list>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+
+    
+    <div class="botonera-seleccion-usuario mt-3">
+        <button mat-button color="primary" (click)="crearUsuarioXP()">Crear Usuario/Persona</button>
+    </div>
+
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

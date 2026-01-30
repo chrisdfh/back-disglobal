@@ -1,0 +1,114 @@
+<h2 #top class="mt-3">
+    Configuración de SMS <span *ngIf="this.modo !== ''" >- {{this.modo}}</span>
+</h2>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div #main class="container">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+
+        <div class="row pt-4">
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nombre de configuración</mat-label>
+                    <input matInput placeholder="Ej. Configuración #1" formControlName="nombre">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Código de servicio</mat-label>
+                    <input matInput placeholder="Ej. configcod" formControlName="serviciocod" [readonly]="modo !=='Incluir'">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Método HTTP</mat-label>
+                    <mat-select formControlName="verbo">
+                        <mat-option value="GET">GET</mat-option>
+                        <mat-option value="POST">POST</mat-option>
+                        <mat-option value="PUT">PUT</mat-option>
+                        <mat-option value="DELETE">DELETE</mat-option>
+                        <mat-option value="PATCH">PATCH</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Número de envío</mat-label>
+                    <input matInput placeholder="Ej. 12345" formControlName="from_number">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>URL servicio</mat-label>
+                    <input matInput type="url" placeholder="Ej. https://" formControlName="url_service">
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="col-12 mt-3">
+                <h6>
+                    Datos de Autenticación
+                </h6>
+            </div>
+
+            <div class="col-12 col-md-4 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Método de Autenticación</mat-label>
+                    <input matInput placeholder="Ej. Basic" formControlName="auth_method">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-8 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Credencial de Autenticación</mat-label>
+                    <input matInput placeholder="Ej. ABCD1234EFGH5678" formControlName="auth_credentials">
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="col-12 mt-3">
+                <h6>
+                    Configuración del sistema
+                </h6>
+            </div>
+            <div class="col-12 col-md-4 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Se debe esperar engrega de SMS</mat-label>
+                    <mat-select formControlName="dlr">
+                        <mat-option value="S">SI</mat-option>
+                        <mat-option value="N">NO</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-8 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nivel de logueo de proceso de envío</mat-label>
+                    <input matInput placeholder="Ej. 1" formControlName="dlr_level">
+                </mat-form-field>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- 
+-serviciocod
+-verbo
+-url_service
+-from_number
+dlr
+dlr_level
+-auth_method
+auth_credentials
+-nombre
+
+
+-->
+
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

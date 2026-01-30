@@ -1,0 +1,56 @@
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Establecer Tasa Cambiaria
+        </h2>
+    </div>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para cambiar tasa del tipo de cambio <span class="fw-bold">DOLAR / Bs.</span> coloque el nuevo valor en el recuadro TASA ACTUALIZADA y haga clic en ACTUALIZAR.
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="exchangeChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{exchangeChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Tasa Actual
+                        </mat-label>
+                        <input matInput type="number" readonly formControlName="old_value">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Tasa Actualizada
+                        </mat-label>
+                        <input matInput type="number" formControlName="value">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="setCurrencyValue()" [disabled]="form.value.value<=0 || form.value.value===null">
+                        <mat-icon>currency_exchange</mat-icon>
+                        Actualizar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>
+

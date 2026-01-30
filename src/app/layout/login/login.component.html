@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="logo-principal text-center pt-5 pb-5">
+        <img class="w-75" src="{{logo}}" alt="">
+    </div>
+
+    <div class="p-4 " [formGroup]="form">
+
+        <div class="row pt-4">
+            <div class="col-12 col-md-12 p-0">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput placeholder="Ej. cyepez" formControlName="username" (keyup.enter)="loginUserXp()">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-12 p-0">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Clave</mat-label>
+                    <input matInput placeholder="contraseña" formControlName="password" type="password" (keyup.enter)="loginUserXp()">
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md-12 p-0 d-none">
+                <span [formGroupName]="'ciaopr'">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>
+                            Ambiente
+                        </mat-label>
+                        <mat-select formControlName="ciaopr" (selectionChange)="onSelect($event)" >
+                            <mat-option *ngFor="let config of libEnvService.getConfigs()" [value]="config">{{config.ciaopr.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+<!-- 
+            <div class="col-12 col-md-12 p-0 ">
+                <mat-slide-toggle formControlName="cliente_xp">
+                    Cliente XityPay
+                </mat-slide-toggle>
+            </div> -->
+
+            <div class="botonera text-center w-100 pt-4">
+                <button class="btn btn-outline-dark px-4 w-100" (click)="loginUserXp()">Login</button>
+            </div>
+            <div class="botonera text-center w-100 pt-4 d-none">
+                <button class="btn btn-outline-dark px-4 w-100" (click)="login()">LoginSecured</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

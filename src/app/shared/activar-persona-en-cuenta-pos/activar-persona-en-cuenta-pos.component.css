@@ -1,0 +1,16 @@
+/* mat-form-field:has(input[readony]){
+    background-color: white;
+}
+
+mat-form-field:has(input){
+    background-color: red;
+}
+
+.mat-form-field-disabled{
+    background-color: orange;
+} */
+
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled):has(input[readonly]){
+    background-color: white !important;
+}

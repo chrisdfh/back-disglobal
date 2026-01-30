@@ -1,0 +1,12 @@
+::ng-deep .mat-slide-toggle.mat-disabled {
+  opacity: 1 !important;
+}
+
+::ng-deep  .mat-mdc-slide-toggle.S .mdc-switch:disabled .mdc-switch__handle::after,
+::ng-deep  .mat-mdc-slide-toggle.S .mdc-switch:disabled .mdc-switch__track::after{
+    background-color: var(--mdc-switch-selected-handle-color) !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle.S .mdc-switch:disabled .mdc-switch__handle::after {
+    opacity:0.6 !important
+}

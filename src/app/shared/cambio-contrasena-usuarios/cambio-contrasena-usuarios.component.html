@@ -1,0 +1,63 @@
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Reinicio de contraseña
+        </h2>
+    </div>
+</div>
+
+
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="getUsuario()">Buscar Usuario</button>
+</div>
+
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para reestablecer la contraseña de un usuario, seleccionelo de la lista y haga click sobre el botón "Reestablecer Contraseña", en su próximo login, deberá usar su <span class="fw-bold">Número de Documento</span> como contraseña.
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="passwordChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{passwordChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Usuario
+                        </mat-label>
+                        <input matInput placeholder="Ej. imp2002" type="text" readonly formControlName="username">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Correo Principal
+                        </mat-label>
+                        <input matInput type="text" placeholder="Ej. usuario@dominio.com" readonly formControlName="email_publico">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="resetPwd()" [disabled]="form.value.codnip===''">
+                        <mat-icon>lock_open_right</mat-icon>
+                        Reestablecer contraseña 
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

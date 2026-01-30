@@ -1,0 +1,56 @@
+<p class="mb-0">{{data.titulo}}</p>
+
+<div class="container h-sp"  [formGroup]="form">
+    <div class="row h-100 gap-1">
+        <div class="col-12">
+            <div class="msg pt-2">
+                {{data.msg}}
+            </div>
+        </div>
+        <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Nombre de la cuenta
+                </mat-label>
+                <input  matInput type="text" placeholder="Cuenta Número 1" formControlName="nombre" (keyUp.enter)="sendInput()">
+
+            </mat-form-field>
+        </div>
+        <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Usuario SyPago
+                </mat-label>
+                <input #inputQuery matInput type="text" placeholder="usuario" formControlName="usersypago" (keyUp.enter)="sendInput()">
+
+            </mat-form-field>
+        </div>
+        <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Secret SyPago
+                </mat-label>
+                <input  matInput type="password" placeholder="c6f057b86584942e415435ffb1fa93d4" formControlName="secret" (keyUp.enter)="sendInput()">
+
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <mat-slide-toggle class="mb-1" formControlName="activo" >
+                Activo
+            </mat-slide-toggle>
+        </div>
+             
+        <div class="col-12">
+            <!-- mat-dialog-actions -->
+            <div class="botonera border-top border-opacity-10"> 
+                <button type="button" class="btn" mat-button (click)="sendInput()" #btnTrue>{{data.btn_true_text}}</button>
+
+                <button type="button" class="btn" mat-button [mat-dialog-close]="false" #btnFalse>{{data.btn_false_text||'Cancelar'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

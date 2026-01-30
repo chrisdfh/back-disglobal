@@ -1,0 +1,315 @@
+<h2 class="mt-3 text-center">
+    Grilla de Ofertas
+</h2>
+<div class="container mb-5">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+        <div class="row pt-4">
+            
+            <div class="col-6 col-md-4 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Categoría
+                    </mat-label>
+                    <mat-select  formControlName="categoriacod">
+                        <mat-option value="">
+                            Todas las Categorías
+                        </mat-option>
+                        <mat-option *ngFor="let categoria of tablasApoyo.categoria" 
+                                    [value]="categoria.cod">
+                                        {{categoria.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6 col-md-4 p-0">
+
+            <mat-form-field class="w-100">
+                    <mat-label>
+                        Nivel de Destacamiento
+                    </mat-label>
+                    <mat-select formControlName="estatuscod">
+                        <mat-option value="">
+                            Todos los Estatus
+                        </mat-option>
+                        <mat-option *ngFor="let estatus of nivelDestacados" 
+                                    [value]="estatus">
+                                        {{ estatus }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md-4 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Fecha de inicio (+7 días)
+                    </mat-label>
+
+                    <input matInput [matDatepicker]="fechaDesde" formControlName="fecha_desde">
+                    <mat-hint>DD/MM/AAAA</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="fechaDesde"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaDesde></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row g-2">
+        <div class="col-4 pr-1">
+            <button mat-button class="btn-standard w-100 mb-3 fix-icon spx" color="default" (click)="getGrilla()">
+                <mat-icon>search</mat-icon>
+                Consultar
+            </button>
+        </div>
+        <div class="col-4 px-1">
+            <button mat-button class="btn-standard btn w-100 btn-light mb-3 fix-icon spx" (click)="creaGrilla()">
+                <mat-icon>playlist_add</mat-icon>
+                Crear Grilla
+            </button>
+        </div>
+        <div class="col-4 pl-1">
+            <button mat-button class="btn-standard btn w-100 btn-light mb-3 fix-icon spx" (click)="restaurar()">
+                <mat-icon>refresh</mat-icon>
+                Restaurar
+            </button>
+        </div>
+    </div>
+
+    <div class="mat-elevation-z8" [hidden]="!tablaVisible">
+
+    
+        <table class="small-table h-unset header-centrado grey-border" mat-table [dataSource]="tableData">
+
+
+            <ng-container matColumnDef="categoria">
+                <th mat-header-cell *matHeaderCellDef> Categoría </th>
+                <td class="text-center" mat-cell *matCellDef="let element">
+                    <div class=""*ngIf="element[0]">
+                        {{element[0].categoriacod}}-{{element[0].estatuscod}}
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha1">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[0]}} </th>
+                <td mat-cell class="text-center " *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[0])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[0]">
+                        <div class="text-center">
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[0].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block ">
+                                <span class="p-1 square-20">
+                                    {{element[0].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[0].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[0])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha2">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[1]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[1])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[1]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[1].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[1].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[1].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[1])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha3">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[2]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[2])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[2]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                {{element[2].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[2].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[2].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[2])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha4">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[3]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[3])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[3]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[3].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[3].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[3].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[3])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha5">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[4]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[4])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[4]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[4].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[4].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[4].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[4])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha6">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[5]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[5])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[5]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[5].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[5].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[5].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[5])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha7">
+                <th mat-header-cell *matHeaderCellDef> {{diasConsulta[6]}} </th>
+                <td mat-cell class="text-center" *matCellDef="let element"   >
+                    <div (click)="editaGrilla(element[6])" class="font-weight-bold d-flex align-items-center justify-content-center" *ngIf="element[6]">
+                        <div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[6].cantidad_max||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[6].cantidad||0}}
+                                </span>
+                            </div>
+                            <div class="lh1 d-block d-md-inline-block">
+                                <span class="p-1 square-20">
+                                    {{element[6].cantidad_disp||0}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lh1 d-block d-md-inline-block">
+                            <span class="{{setClass(element[6])}} p-1">
+                                ⬤
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr class="text-center" mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+            <tr class="text-center" mat-row *matRowDef="let row; columns: columnasVisibles;"></tr>
+        </table>
+    </div>
+
+</div>
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

@@ -1,0 +1,42 @@
+<p>HashTags Sugeridos</p>
+<div class="container table-container2">
+    <div class="row">
+        <div class="col-12">
+            <div class="h4">
+                Seleccione los TAGS a utilizar en la oferta 
+                <small (click)="showTags()" *ngIf="hashTagsArray.length>0">
+                    {{hashTagsArray.length + ' Seleccionada(s)'}}
+                </small>
+            </div>
+
+            <div class="border-bottom pb-2" *ngIf="hashTagsArray.length>0">
+                <div class="tagname p-1">
+                    <span class="">{{hashTagsArray.join(', ')}}</span>
+                </div>
+                <div class="d-flex">
+                    <button class="btn-standard fix-icon ml-auto" (click)="returnHashes()"  [disabled]="hashTagsArray.length>=maxTags"><mat-icon class="t-6">check</mat-icon>Utilizar</button>
+                </div>
+            </div>
+
+            <div class="tags-container y-scroll">
+                <div class="tag" *ngFor="let tag of hashTags">
+                    <div class="tagname">
+                        <mat-slide-toggle #tagShow name="{{tag}}" class="p-1" (change)="toggleTag($event.checked,tag)" checked>{{tag}}</mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="botonera-footer">
+        <button class="btn-standard fix-icon" [mat-dialog-close]="false" ><mat-icon class="t-6">close</mat-icon>Cerrar</button>
+        <button class="btn-standard fix-icon" (click)="saveTagsAndSearch()"><mat-icon class="t-6">tag</mat-icon>Mas HashTags</button>
+        <button class="btn-standard fix-icon" (click)="selectAllHashTags()"><mat-icon class="t-6">toggle_on</mat-icon> Todos</button>
+        <button class="btn-standard fix-icon" (click)="selectNoHashTags()"><mat-icon class="t-6">toggle_off</mat-icon> Ninguno</button>
+
+    </div>
+</div>
+
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

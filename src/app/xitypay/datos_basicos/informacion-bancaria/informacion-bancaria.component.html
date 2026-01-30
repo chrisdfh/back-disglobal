@@ -1,0 +1,321 @@
+<h2 #top class="mt-3">
+    Información Bancaria <span *ngIf="this.modo !== ''" >- {{this.modo}}</span>
+</h2>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div #main class="container">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+
+    <div class="row pt-4">
+        <div class="col-12 col-md-6 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de cuenta XityPay</mat-label>
+                <input matInput placeholder="Ej. 1234567" formControlName="xpayctanro" readonly>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de Aliado</mat-label>
+                <input matInput placeholder="Ej. 1234567" type="number" formControlName="nroaliado" readonly maxlength="30">
+                
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de Persona</mat-label>
+                <input matInput placeholder="Ej. 1234567" type="number" formControlName="nropersona" readonly maxlength="30">
+            </mat-form-field>
+        </div>
+        
+        <div class="col-12 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Nombre a mostrar</mat-label>
+                <input matInput placeholder="Ej. Pago por servicio" type="string" formControlName="nombre" readonly>
+            </mat-form-field>
+
+        </div>
+        
+
+
+        <div class="col-12 mb-3">
+            <mat-accordion>
+                <mat-expansion-panel  formGroupName="api_provider" >
+                    <mat-expansion-panel-header>
+                        <mat-panel-description>
+                            Proveedor API&nbsp;&nbsp;&nbsp;<span class="fw-bold">({{form.get('api_provider.provnombre')?.value || 'CUENTA SIN PROVEEDOR API'}})</span>
+                            <mat-icon class="ml-auto">payment_arrow_down</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Nombre Proveedor</mat-label>
+                                <input matInput type="text" placeholder="Tecnología C.A." formControlName="provnombre" readonly>
+                                <button type="button" #formButton class="btn" mat-button matSuffix (click)="catalogoApiProveedores()">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Api-Key</mat-label>
+                                <input matInput type="text" placeholder="Ej. abcdefg12345678" formControlName="apikey" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Api-Secret (Para Sypago: API-KEY)</mat-label>
+                                <input title="Para Sypago: API-KEY" matInput type="text" placeholder="Ej. abcdefg12345678" formControlName="apisecret" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Usuario</mat-label>
+                                <input matInput type="text" placeholder="Ej. pperez" formControlName="usuario" >
+                            </mat-form-field>
+                        </div>
+
+
+                        <!-- CAMPOS UTILIDAD PARA USAR EN EL FUTURO -->
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Key 1</mat-label>
+                                <input matInput type="text" placeholder="Ej. 1234" formControlName="key_1" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Key 2</mat-label>
+                                <input matInput type="text" placeholder="Ej. 1234" formControlName="key_2" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Key 3</mat-label>
+                                <input matInput type="text" placeholder="Ej. 1234" formControlName="key_3" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Key 4</mat-label>
+                                <input matInput type="text" placeholder="Ej. 1234" formControlName="key_4" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 p-0">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Key 5</mat-label>
+                                <input matInput type="text" placeholder="Ej. 1234" formControlName="key_5" >
+                            </mat-form-field>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <!-- 
+key_1
+key_2
+key_3
+key_4
+key_5
+                    -->
+
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+
+        <div class="col-12 mt-4">
+            <h6>
+                Información bancaria
+            </h6>
+        </div>
+        
+
+        <div class="col-12  col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Titular de la cuenta</mat-label>
+                <input matInput placeholder="Nombre del titular de la cuenta" formControlName="cta_titular_nombre" maxlength="255">
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo Doc</mat-label>
+                <mat-select formControlName="bancocta_tipnip" >
+                    <mat-option *ngFor="let tipnip of tablasApoyo.tipNip" 
+                                [value]="tipnip.tipnipcod">
+                                    {{ tipnip.tipnipnombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6  col-md-5 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de documento</mat-label>
+                <input matInput placeholder="123456789" formControlName="bancocta_codnip" maxlength="64">
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Banco</mat-label>
+                <mat-select formControlName="bancocod">
+                    <mat-option *ngFor="let item of tablasApoyo.entidadesFinancieras; let i = index" [value]="item.entidadcod">{{item.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <!-- <div class="col-6  col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo de cuenta</mat-label>
+                <input matInput placeholder="tipo" formControlName="bancocta_tipo" maxlength="64">
+            </mat-form-field>
+        </div> -->
+
+        <div class="col-6 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo de cuenta</mat-label>
+                <mat-select formControlName="ctatipo" placeholder="Número de cuenta o Teléfono" (selectionChange)="cambiaLabelPlaceholder($event)">
+                    <mat-option value="CNTA">Número de cuenta 20 dígitos</mat-option>
+                    <mat-option value="CELE">Número de Teléfono</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label #cntaLabel></mat-label>
+                <input matInput #cntaInput placeholder="." formControlName="ctanro" maxlength="20">
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-12 col-md-6 p-0">
+                <mat-slide-toggle class="p-3" formControlName="cuenta_transitoria">Cuenta Transitoria</mat-slide-toggle>
+        </div>
+
+
+        <div class="col-12 mt-4">
+            <h6>
+                Información bancaria FEDERADA
+            </h6>
+        </div>
+
+        <div class="col-12  col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Titular de la cuenta</mat-label>
+                <input matInput placeholder="Nombre del titular de la cuenta" formControlName="cta_titular_nombre_federado" maxlength="255">
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo Doc</mat-label>
+                <mat-select formControlName="bancocta_tipnip_federado" >
+                    <mat-option *ngFor="let tipnip of tablasApoyo.tipNip" 
+                                [value]="tipnip.tipnipcod">
+                                    {{ tipnip.tipnipnombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6  col-md-5 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de documento</mat-label>
+                <input matInput placeholder="123456789" formControlName="bancocta_codnip_federado" maxlength="64">
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Banco</mat-label>
+                <mat-select formControlName="bancocod_federado">
+                    <mat-option *ngFor="let item of tablasApoyo.entidadesFinancieras; let i = index" [value]="item.entidadcod">{{item.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo de cuenta</mat-label>
+                <mat-select formControlName="ctatipo_federado" placeholder="Número de cuenta o Teléfono" (selectionChange)="cambiaLabelPlaceholder2($event)">
+                    <mat-option value="CNTA">Número de cuenta 20 dígitos</mat-option>
+                    <mat-option value="CELE">Número de Teléfono</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-4 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label #cntaLabel2></mat-label>
+                <input matInput #cntaInput2 placeholder="." formControlName="ctanro_federado" maxlength="20">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-4 p-0">
+            <mat-slide-toggle class="p-3" formControlName="federado_estricto">Federado Estricto</mat-slide-toggle>
+        </div>
+
+        <div class="col-12 mt-3">
+            <h6>
+                Información de contacto (Registrado en su entidad bancaria)
+            </h6>
+        </div>
+
+        <div class="col-12 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Código de país</mat-label>
+                <mat-select formControlName="telfcodpais">
+                    <mat-option value="+058">Venezuela (+58)</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Código de área</mat-label>
+                    <mat-select formControlName="telfcodarea" placeholder="">
+                        <mat-option value="412">0412</mat-option>
+                        <mat-option value="412">0422</mat-option>
+                        <mat-option value="414">0414</mat-option>
+                        <mat-option value="424">0424</mat-option>
+                        <mat-option value="416">0416</mat-option>
+                        <mat-option value="426">0426</mat-option>
+                    </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-6 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Número de teléfono</mat-label>
+                <input matInput placeholder="0000000" formControlName="telefono" maxlength="7">
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput placeholder="usuario@empresa.com" formControlName="email">
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 p-0">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Correo electrónico secundario</mat-label>
+                <input matInput placeholder="usuario@empresa.com" formControlName="email_publico">
+            </mat-form-field>
+        </div>
+    </div>
+
+</div>
+
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

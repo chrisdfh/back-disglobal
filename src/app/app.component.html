@@ -1,0 +1,32 @@
+<mat-toolbar class="app-toolbar d-flex justify-content-between" *ngIf="shouldShowMenu()">
+  <div class="top-btn-container">
+    <button mat-icon-button aria-label="icon-button with menu icon" class="btn d-md-none px-0">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button [routerLink]="['/']" class="no-focus px-0">
+      <mat-icon>home</mat-icon>
+      Inicio
+    </button>
+  </div>
+  <div>
+    {{name}}
+    <small class="d-none d-md-inline">{{appVersion}}</small>
+  </div>
+  <div class="top-btn-container d-flex align-items-center">
+    <!-- NOMBRE / CLIENTE A MOSTRAR -->
+    <span>{{username}}</span>
+    
+    <button mat-icon-button class="btn" title="Cerrar Sesión" (click)=logOut()>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container class="container" style="height:100%" autosize>
+<!-- (activate)="suscritoAlEmisor($event)" -->
+  <div class="content">
+    <app-menu></app-menu>
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-drawer-container>

@@ -1,0 +1,130 @@
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Cambio de Serial
+        </h2>
+    </div>
+</div>
+
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para cambiar el serial de un equipo asociado a una cuenta XityPay, introduzca el serial y verifique la Información, finalmente escriba el nuevo serial y presione el botón "Cambiar".
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-8 px-1">
+                    <mat-form-field class="w-100" [formGroup]="form">
+                        <mat-label>
+                            Serial
+                        </mat-label> 
+                        <input matInput placeholder="Ej. abc123def" type="text" formControlName="codnip" (keyup)="clearPersona()"  (keyup.enter)="getPersona()">
+                    </mat-form-field>
+                </div>
+                <div class="col-4 px-1">
+                    <div class="botonera-seleccion-usuario">
+                        <button mat-button class="btn-standard fix-icon" (click)="getPersona()" [disabled]="form.value.password==='' || form.value.password===null">
+                            <mat-icon>search</mat-icon>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pt-3" *ngIf="persona.nropersona">
+                <div class="col-8 px-1">
+                    <mat-form-field class="w-100" [formGroup]="form">
+                        <mat-label>
+                            Nuevo Serial
+                        </mat-label> 
+                        <input matInput placeholder="Ej. abc123def" type="text" formControlName="new_codnip" (keyup.enter)="cambiaSerial()">
+                    </mat-form-field>
+                </div>
+                <div class="col-4 px-1">
+                    <div class="botonera-seleccion-usuario">
+                        <button mat-button class="btn-standard fix-icon" (click)="cambiaSerial()">
+                            <mat-icon>cached</mat-icon>
+                            Cambiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="idChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{idChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="persona.nropersona">
+                <div class="col-12">
+
+                    <div class="info-text text-center">
+                        Verifique la información registrada
+                    </div>
+                </div>
+                <div class="col-md-4 pr-md-2">
+                    <div class="imagen-pec pt-4">
+                        <img [src]="persona.url_avatar1" alt="">
+                    </div>
+                </div>
+                <div class="col-md-8 pl-md-2">
+                    <div class="row">
+
+                <div class="col-12 p-1" *ngIf="persona.nrousuario">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            ID Login
+                        </mat-label>
+                        <input type="text" placeholder="abc123def" matInput [value]="persona.alias" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Nombre
+                        </mat-label>
+                        <input type="text" placeholder="Juan Pérez" matInput [value]="persona.nombrecorto" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Cédula
+                        </mat-label>
+                        <input type="text" placeholder="V-00000000" matInput [value]="persona.bancocta_tipnip + '-' + persona.bancocta_codnip" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Correo Electrónico
+                        </mat-label>
+                        <input type="text" placeholder="correo@dominio.com" matInput [value]="persona.email_not" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Teléfono
+                        </mat-label>
+                        <input type="text" placeholder="04xx 00000000" matInput [value]="persona.bancocta_telfcodpais + ' ' + persona.bancocta_telfcodarea + ' ' + persona.bancocta_telefono" readonly>
+                    </mat-form-field>
+                </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

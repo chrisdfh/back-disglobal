@@ -1,0 +1,114 @@
+<p>Detalle de Transacción</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 break-word">
+            <table class="table detalle-transaccion" >
+                <tr>
+                    <td>Fecha</td>
+                    <td>{{formatDate(data.fecha)}}</td>
+                </tr>
+                <tr>
+                    <td>Id Interno</td>
+                    <td>{{data.id}}</td>
+                </tr>
+                <tr>
+                    <td>Nro Cuenta XityPay</td>
+                    <td>{{data.xpayctanro}}</td>
+                </tr>
+                <tr>
+                    <td>Per. En Cuenta</td>
+                    <td>{{data.nropersona}} - {{data.persona_en_cuenta.nombrecorto}}</td>
+                </tr>
+                <tr>
+                    <td>Ref XityPay</td>
+                    <td>{{data.transaction_id}}</td>
+                </tr>
+                <tr>
+                    <td>Ref Bancaria</td>
+                    <td>{{data.ref_ibp}}</td>
+                </tr>
+                <tr>
+                    <td>Concepto</td>
+                    <td>{{data.concepto}}</td>
+                </tr>
+                <tr>
+                    <td>Referencia</td>
+                    <td>{{data.link.referencia}}</td>
+                </tr>
+                <tr>
+                    <td>Tipo de Enlace</td>
+                    <td>{{getTipoEnlace(data.link.tipo_enlace)}}</td>
+                </tr>
+                <tr *ngIf="data.link.lotenro">
+                    <td>Nro. Lote</td>
+                    <td>{{data.link.lotenro}}</td>
+                </tr>
+                <tr>
+                    <td>Monto</td>
+                    <td>{{drawMoneda(data)}}</td>
+                    <!-- <td>{{data.moneda}} {{formatNumber(data.monto)}}</td> -->
+                </tr>
+                <tr class="d-none">
+                    <td>Tipo de cta destino</td>
+                    <td>{{data.type}}</td>
+                </tr>
+                <tr>
+                    <td>Banco Receptor</td>
+                    <td>{{data.bank_code}} - {{getBankData(data.bank_code)}}</td>
+                </tr>
+                <tr>
+                    <td>Nro de cta destino</td>
+                    <td>{{data.number}}</td>
+                </tr>
+
+                <tr>
+                    <td>Status</td>
+                    <td [class]="data.status">{{getStatus(data.status)}}</td>
+                </tr>
+                <tr *ngIf="data.status==='RJCT'">
+                    <td>Motivo Rechazo</td>
+                    <td [class]="data.status">{{data.rejected_code}} - {{data.status_msg}}</td>
+                </tr>
+
+                <tr>
+                    <td>Email Pagador</td>
+                    <td>{{data.email}}</td>
+                </tr>
+                <tr>
+                    <td>Doc. Pagador</td>
+                    <td>{{data.tipnip}}-{{data.codnip}}</td>
+                </tr>
+                <tr>
+                    <td>Tipo de Cuenta</td>
+                    <td>{{data.ctatipopagador}}</td>
+                </tr>
+
+                <tr>
+                    <td>Banco Pagador</td>
+                    <td>{{data.bancocodpagador}} - {{getBankData(data.bancocodpagador)}}</td>
+                </tr>
+                <tr>
+                    <td>Nro de Cuenta</td>
+                    <td>{{data.ctanropagador}}</td>
+                </tr>
+                <tr>
+                    <td>OTP</td>
+                    <td>{{data.otp}}</td>
+                </tr>
+
+
+                <tr>
+                    <td>URL WebHook</td>
+                    <td>{{data.web_hook_endpoint}}</td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+
+
+    <div class="botonera border-top border-opacity-10"> 
+        <button class="btn" mat-button [mat-dialog-close]="false" #btnFalse>Cerrar</button>
+    </div>
+</div>

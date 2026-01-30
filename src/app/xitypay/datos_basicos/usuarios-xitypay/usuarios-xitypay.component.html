@@ -1,0 +1,67 @@
+
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Gestión de Usuarios XityPay
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="catalogoXityPayCta()">Seleccionar Aliado</button>
+    <button *ngIf="xpayctanro" mat-button color="primary" (click)="agregaUsuarioXpayCuenta()">Agregar Usuario</button>
+    <!-- <button *ngIf="xpayctanro" mat-button color="primary" (click)="verPersonasEnCuenta()">Personas en cuenta</button> -->
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Los usuarios a continuación tienen acceso a realizar solicitudes de Links de Pago, y cargar el archivo de lote
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-2">
+
+    <h3 *ngIf="aliadoNombre" class="text-center">
+        <!-- NOMBRE DE XPAYCUENTA -->
+        Usuarios de {{aliadoNombre}}
+    </h3>
+
+    <div #tableContainer class="container table-container mb-4">
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8"  *ngIf="dataSource.results" >
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef style="width:85%">(NroUsuario) - Nombre</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="element.rol_1==='A'?'bg-admin':''"  >({{element.nrousuario}}) - {{element.usuario.nombrecorto}}</td>
+        </ng-container>
+        <ng-container class="role_width" matColumnDef="rol_1" >
+          <th class="role_width" mat-header-cell *matHeaderCellDef  >Rol Usuario</th>
+          <td class="role_width" mat-cell *matCellDef="let element"  [ngClass]="element.rol_1==='A'?'bg-admin':''" >
+            <mat-select class="role_width" [value]="element.rol_1" (selectionChange)="updateUsuario($event, element)">
+              <mat-option *ngFor="let tipoUsuario of tipoUsuarios" [value]="tipoUsuario.cod" [disabled]="element.rol_1==='S' || tipoUsuario.cod === 'S'">
+                {{tipoUsuario.desc}}
+              </mat-option>
+            </mat-select>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="alias">
+            <th mat-header-cell *matHeaderCellDef>Alias</th>
+            <td mat-cell *matCellDef="let element" class="text-right"   [ngClass]="element.rol_1==='A'?'bg-admin':''">{{element.usuario.alias}}</td>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+            <td mat-cell *matCellDef="let element" class="text-right" (click)="eliminarUsuarioXpayCta(element)"  [ngClass]="element.rol_1==='A'?'bg-admin':''"><mat-icon>delete</mat-icon></td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

@@ -1,0 +1,357 @@
+<h2 class="mt-3">
+    Oferta
+</h2>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div #top class="container">
+    <div class="pb-4" [formGroup]="form">
+        <div class="row" *ngIf="form.value.nrooferta!==null">
+            <div class="col-12 col-md-4 p-1">
+                <a target="_blank" (click)="verOferta()" class="w-100 btn btn-warning icon-fix"><mat-icon class="mx-2">preview</mat-icon>Ver Oferta</a>
+            </div>
+            <div class="col-12 col-md-4 p-1">
+                <a (click)="clonarOferta()" class="w-100 btn btn-warning icon-fix"><mat-icon class="mx-2">file_copy</mat-icon>Clonar</a>
+            </div>
+            <div class="col-12 col-md-4 p-1">
+                <a (click)="destacaOferta()" class="w-100 btn btn-warning icon-fix"><mat-icon class="mx-2">workspace_premium</mat-icon>Destacar</a>
+            </div>
+        </div>
+        <small>Campos marcados con (*) son requeridos</small>
+        <div class="row pt-4">
+            <div class="col-4 col-md-2 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Nro Aliado
+                    </mat-label>
+                    <input matInput type="text" formControlName="nroaliado" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col-8 col-md-4 p-0"[formGroupName]="'aliado'">
+                <mat-form-field class="w-100" [formGroupName]="'persona'">
+                    <mat-label>
+                        Aliado
+                    </mat-label>
+                    <input matInput type="text" formControlName="nombrecorto" readonly>
+                    <button #formButton class="btn" mat-button matSuffix title="Buscar Aliado" (click)="catalogoAliados()">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="col-4 col-md-2 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Nro Oferta
+                    </mat-label>
+                    <input matInput type="text" formControlName="nrooferta" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col-8 col-md-4 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Categoría
+                    </mat-label>
+                    <mat-select formControlName="categoriacod">
+                        <mat-option *ngFor="let categoria of tablasApoyo.categoria" [value]="categoria.cod">
+                            {{categoria.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Monto o Porción
+                    </mat-label>
+                    <mat-select formControlName="monto_o_porc">
+                        <mat-option value="M">Monto</mat-option>
+                        <mat-option value="P">Porción</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Monto:
+                    </mat-label>
+                    <input matInput type="number" maxlength="18" placeholder="Ej. 2300.00" formControlName="monto">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Fecha Inicio Oferta
+                    </mat-label>
+                    <input matInput formControlName="vigente_desde" placeholder="DD/MM/AAAA" [matDatepicker]="vigenteDesde">
+                    <mat-datepicker-toggle matSuffix [for]="vigenteDesde"></mat-datepicker-toggle>
+                    <mat-datepicker #vigenteDesde  ></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Fecha Final Oferta
+                    </mat-label>
+                    <input matInput formControlName="vigente_hasta" placeholder="DD/MM/AAAA" [matDatepicker]="vigenteHasta">
+                    <mat-datepicker-toggle matSuffix [for]="vigenteHasta"></mat-datepicker-toggle>
+                    <mat-datepicker #vigenteHasta  ></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="w-100">
+                    <div class="titulo-ngxeditor">
+                        Presentación * <small>(Resaltar texto para aplicar estilos) - (Importado de Aliado)</small>
+                    </div>
+
+
+                    <quill-editor placeholder="Ingresa la Presentación..." [modules]="quillToolbar" [ngClass]="{'no-edit':!visible}" formControlName="presentacion" (paste)="paste($event)" ></quill-editor>
+
+
+                    <!-- <ngx-editor-floating-menu [editor]="presentacionEditor" [toolbar]="toolbar">
+                        <ngx-editor-menu [editor]="presentacionEditor" [toolbar]="toolbar"></ngx-editor-menu>
+                    </ngx-editor-floating-menu>
+                    <ngx-editor matInput [editor]="presentacionEditor" formControlName="presentacion" [placeholder]="'Ingresa la Presentación...'"></ngx-editor> -->
+                    <!-- <textarea matInput formControlName="presentacion"></textarea> -->
+                </div>
+            </div>
+            <mat-divider>c</mat-divider>
+
+            <div class="col-12 mb-4">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Oferta
+                    </mat-label>
+                    <textarea matInput formControlName="oferta" placeholder="Ingrese la Oferta"></textarea>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 mb-4">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Título Corto (Para completar URL)
+                    </mat-label>
+                    <input matInput type="text" maxlength="128" placeholder="Oferta especial" formControlName="titulo_corto" (blur)="preparaSlug()">
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 mb-4">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        URL
+                    </mat-label>
+                    <input matInput type="text" formControlName="url_oferta" readonly>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Frases para generar y añadir HashTags (Coloque las frases separadas por coma)
+                    </mat-label>
+                    <textarea #para_crear_tags matInput formControlName="para_crear_tags" (blur)="appendTags($event)"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-12 mb-4">
+                <mat-form-field class="w-100 no-hint">
+                    <mat-label>
+                        HashTags
+                    </mat-label>
+                    <textarea #hashtags matInput formControlName="hashtags" (blur)="removeDuplicateTags($event)"></textarea>
+                </mat-form-field>
+                <button mat-button class="btn-standard mt-2 fs-14p flex-hor-center" [disabled]="form.value.nrooferta===null || !visible" (click)="getHashTagsDialog()">
+                    <mat-icon>tag</mat-icon> Sugerir HashTags
+                </button>
+            </div>
+        </div>
+
+        <mat-accordion>
+            <!-- DESCRIPCION -->
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Descripciones
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="w-100 mb-4">
+                    <div class="titulo-ngxeditor">
+                        Descripción 1 <small>(Resaltar texto para aplicar estilos) - (Importado de Aliado)</small> 
+                    </div>
+                    <!-- <ngx-editor-menu [editor]="desc1Editor" [toolbar]="toolbar"></ngx-editor-menu> -->
+                   <!--  -->
+                    <quill-editor placeholder="Descripción..." [modules]="quillToolbar" [ngClass]="{'no-edit':!visible}" formControlName="descripcion1" (paste)="paste($event)" ></quill-editor>
+
+                    <!-- <ngx-editor-floating-menu [editor]="desc1Editor" [toolbar]="toolbar">
+                        <ngx-editor-menu [editor]="desc1Editor" [toolbar]="toolbar"></ngx-editor-menu>
+                    </ngx-editor-floating-menu>
+                    <ngx-editor matInput [editor]="desc1Editor" formControlName="descripcion1" [placeholder]="'Descripción...'" (paste)="paste($event)"></ngx-editor>
+                     -->
+
+
+                    <!-- <mat-label>Descripción 1</mat-label> -->
+                    <!-- <textarea formControlName="descripcion1" matInput></textarea> -->
+                </div>
+                <div class="w-100 mb-4">
+                    <div class="titulo-ngxeditor">
+                        Descripción 2  <small>(Resaltar texto para aplicar estilos)</small>
+                    </div>
+
+                    
+                    <quill-editor placeholder="Descripción..." [modules]="quillToolbar" [ngClass]="{'no-edit':!visible}" formControlName="descripcion2" (paste)="paste($event)" ></quill-editor>
+
+<!-- 
+                    <ngx-editor-floating-menu [editor]="desc2Editor" [toolbar]="toolbar">
+                        <ngx-editor-menu [editor]="desc2Editor" [toolbar]="toolbar"></ngx-editor-menu>
+                    </ngx-editor-floating-menu>
+                    <ngx-editor matInput [editor]="desc2Editor" formControlName="descripcion2" [placeholder]="'Descripción...'"></ngx-editor> -->
+                    
+                    <!-- <mat-label>Descripción 2</mat-label> -->
+                    <!-- <textarea formControlName="descripcion2" matInput></textarea> -->
+                </div>
+                <div class="w-100 mb-4">
+                    <div class="titulo-ngxeditor">
+                        Descripción 3  <small>(Resaltar texto para aplicar estilos) - (Importado de Aliado)</small> 
+                    </div>
+
+                    <quill-editor placeholder="Descripción..." [modules]="quillToolbar" [ngClass]="{'no-edit':!visible}" formControlName="descripcion3" (paste)="paste($event)" ></quill-editor>
+
+                    <!-- <ngx-editor-floating-menu [editor]="desc3Editor" [toolbar]="toolbar">
+                        <ngx-editor-menu [editor]="desc3Editor" [toolbar]="toolbar"></ngx-editor-menu>
+                    </ngx-editor-floating-menu>
+                    <ngx-editor matInput [editor]="desc3Editor" formControlName="descripcion3" [placeholder]="'Descripción...'"></ngx-editor> -->
+                    
+                    <!-- <mat-label>Descripción 3</mat-label> -->
+                    <!-- <textarea formControlName="descripcion3" matInput></textarea> -->
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="d-none">
+            <!-- TIPOS DE OFERTA -->
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Tipo de Oferta
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="w-100">
+                    <mat-label>Tipo de Oferta 1</mat-label>
+                    <textarea formControlName="tipo_oferta1" matInput></textarea>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-label>Tipo de Oferta 2</mat-label>
+                    <textarea formControlName="tipo_oferta2" matInput></textarea>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-label>Tipo de Oferta 3</mat-label>
+                    <textarea formControlName="tipo_oferta3" matInput></textarea>
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion>
+            <!-- IMAGENES -->
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Imágenes
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div formArrayName="recursos" cdkDropList (cdkDropListDropped)="drop($event)" class="cdk-Box">
+                    <mat-card class="mb-3" [formGroupName]="i" *ngFor="let imagen of recursos.controls; let i = index" cdkDragLockAxis="y" cdkDrag>
+                        <mat-card-content class="border border-light py-sp">
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="img-container" >
+                                        <img class="w-100" mat-card-image [src]="imagen.value.url" *ngIf="imagen.value.url!==''; else noImage">
+                                        <ng-template #noImage>
+                                            <img class="w-100" mat-card-image src="../../../assets/img.svg">
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <mat-form-field class="w-100">
+                                        <mat-label>Url Imagen</mat-label>
+                                        <input type="text" formControlName="url" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-100">
+                                        <mat-label>Texto</mat-label>
+                                        <input type="text" matInput formControlName="texto_imagen">
+                                    </mat-form-field>
+                                    <div class="btn-container-flex d-flex">
+                                        <div class="btn-izq">
+                                            <button #formButton class="btn-standard icon-fix mr-3 d-none" mat-button>
+                                                <mat-icon>search</mat-icon>
+                                                Buscar
+                                            </button>
+                                            <button #formButton class="btn-standard icon-fix mr-3" mat-button (click)="deleteRecursos(i)" *ngIf="visible">
+                                                <mat-icon>delete</mat-icon>
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                        <div class="btn-der">
+                                            <button #formButton class="icon-fix btn-standard" cdkDragHandle *ngIf="visible">
+                                                <mat-icon>height</mat-icon>
+                                                Ordenar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="w-100 text-center">
+                    <button #formButton class="btn icon-fix" mat-button (click)="addRecursos(undefined)">
+                        <mat-icon>add</mat-icon>
+                        Nueva Imagen
+                    </button>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion>
+            <!-- INFORMACION DE LA OFERTA -->
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Datos adicionales de la oferta
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>
+                    <mat-card-header>
+                        Información de la oferta
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-slide-toggle class="p-3" formControlName="activo">Activo</mat-slide-toggle>
+                        <mat-slide-toggle class="p-3" formControlName="vigente">Vigente</mat-slide-toggle>
+                        <mat-slide-toggle class="p-3" formControlName="verificado">Verificado</mat-slide-toggle>
+                        <mat-slide-toggle class="p-3" formControlName="aprobado">Aprobado</mat-slide-toggle>
+                    </mat-card-content>
+                </mat-card>
+                <mat-form-field class="w-100 mt-3">
+                    <mat-label>
+                        Estatus de la Oferta
+                    </mat-label>
+                    <mat-select formControlName="estatuscod1">
+                    <mat-option *ngFor="let estatus of tablasApoyo.estatusOferta" 
+                                [value]="estatus.cod">
+                                    {{ estatus.nombre }}
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </div>
+</div>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>
+<!-- <button (click)="show()">show</button> -->

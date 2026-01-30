@@ -1,0 +1,67 @@
+<p>
+    Debe cambiar su contraseña
+</p>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="passwordChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{passwordChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                
+                <div class="col-12 col-md-6 p-1 d-none">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Usuario
+                        </mat-label>
+                        <input matInput placeholder="Ej. imp2002" type="text" readonly formControlName="username">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6 p-1 d-none">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Contraseña
+                        </mat-label>
+                        <input matInput type="password" placeholder="Ej. c14ve3-5ecr3t4" readonly formControlName="password">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Nueva Contraseña
+                        </mat-label>
+                        <input matInput type="password" placeholder="Ej. c14ve3-5ecr3t4" formControlName="new_password">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Repita Contraseña
+                        </mat-label>
+                        <input matInput type="password" placeholder="Ej. c14ve3-5ecr3t4" formControlName="renew_password">
+                        <mat-hint class="color-red" *ngIf="form.value.new_password !== form.value.renew_password">Las contraseñas no coinciden</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="changePwd()" [disabled]="form.value.password==='' || form.value.password===null">
+                        <mat-icon>lock_open_right</mat-icon>
+                        Cambiar contraseña 
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

@@ -1,0 +1,74 @@
+<p>{{data.titulo}}</p>
+
+<div [formGroup]="form">
+    <div class="container">
+        <div class="row px-2">
+            <div class="col-6 col-md-3 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Tipo Doc</mat-label>
+                    <input matInput placeholder="Ej. Sucre" formControlName="tipnip" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nro Doc</mat-label>
+                    <input matInput placeholder="Ej. Sucre"  formControlName="codnip" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Alias</mat-label>
+                    <input #input matInput placeholder="Ej. Sucre"  formControlName="username" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Ej. Sucre"  formControlName="nombrecompleto" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="botonera">
+    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+</div>
+
+<div #tableContainer class="container table-container multiple-buttons">
+        <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8"  *ngIf="dataSource.results" >
+            <ng-container matColumnDef="tipnip">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Tipo Doc</th>
+                <td mat-cell *matCellDef="let element" class="text-center">{{element.persona.tipnip}}</td>
+            </ng-container>
+            <ng-container matColumnDef="codnip">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Nro. Doc</th>
+                <td mat-cell *matCellDef="let element" class="text-center">{{element.persona.codnip}}</td>
+            </ng-container>
+            <ng-container matColumnDef="alias">
+                <th mat-header-cell *matHeaderCellDef>Alias</th>
+                <td mat-cell *matCellDef="let element">{{element.alias}}</td>
+            </ng-container>
+            <ng-container matColumnDef="nombrecorto">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{element.persona.nombrecorto}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectRowClick(row)"></tr>
+        </table>
+</div>
+
+
+<mat-paginator  [length]="dataSource.total_registros" 
+                [pageSize]="dataSource.registros_x_pagina" 
+                [nextPageLabel]="'Siguiente'"
+                (page)="onPageChange($event)"
+                *ngIf="dataSource.results">
+</mat-paginator>
+
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

@@ -1,0 +1,226 @@
+<h2 class="mt-3">
+    Plantillas XP <span *ngIf="this.modo !== ''" >- {{this.modo}}</span>
+</h2>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+
+<div #main class="container">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+        <div class="row">
+            <div class="col-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>ID Plantilla</mat-label>
+                    <input matInput placeholder="Ej. 1234567" type="number" formControlName="correlativo" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Ej. Plantilla Diseño 23" type="nombre" formControlName="nombre" maxlength="128">
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-12">
+                <mat-accordion>
+                    <!-- EMAILS -->
+                    <mat-expansion-panel [disabled]="modo === '' || modo === null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Correos de Notificación de pagos
+                                <mat-icon class="ml-auto">mark_email_read</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row" id="not-emails">
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100 no-hint" appearance="fill">
+                                    <mat-label>Correo XityPay</mat-label>
+                                    <textarea highlight-js class="language-html" [lang]="'typescript'"  matInput placeholder="Código HTML de plantilla" type="string" formControlName="plantilla_1" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.plantilla_1)">Vista Previa</button>
+                                </div>
+
+                            </div>
+                            <div class="d-none">
+                                <div class="col-12 p-0">
+                                    <mat-form-field class="w-100 no-hint" appearance="fill">
+                                        <mat-label>Titular XP Cuenta</mat-label>
+                                        <textarea highlight-js class="language-html" [lang]="'typescript'"  matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_email_cuenta" ></textarea>
+                                    </mat-form-field>
+                                    <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                        <button mat-button color="primary" (click)="previewPlantilla(form.value.not_email_cuenta)">Vista Previa</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 p-0">
+                                    <mat-form-field class="w-100 no-hint" appearance="fill">
+                                        <mat-label>Pagador</mat-label>
+                                        <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_email_pagador" ></textarea>
+                                    </mat-form-field>
+                                    <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                        <button mat-button color="primary" (click)="previewPlantilla(form.value.not_email_pagador)">Vista Previa</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 p-0">
+                                    <mat-form-field class="w-100 no-hint" appearance="fill">
+                                        <mat-label>Persona En Cuenta</mat-label>
+                                        <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_email_pec" ></textarea>
+                                    </mat-form-field>
+                                    <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                        <button mat-button color="primary" (click)="previewPlantilla(form.value.not_email_pec)">Vista Previa</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- TELEGRAM -->
+                    <mat-expansion-panel [disabled]="modo === '' || modo === null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Mensajes Telegram de Notificación de pagos
+                                <mat-icon class="ml-auto">aod</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row" id="not-emails">
+
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Titular XP Cuenta</mat-label>
+                                    <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="plantilla_2" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.plantilla_2)">Vista Previa</button>
+                                </div>
+                            </div>
+
+
+
+                            <div class="d-none">
+                                <div class="col-12 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Titular XP Cuenta</mat-label>
+                                        <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_tg_cuenta" ></textarea>
+                                    </mat-form-field>
+                                    <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                        <button mat-button color="primary" (click)="previewPlantilla(form.value.not_tg_cuenta)">Vista Previa</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Persona En Cuenta</mat-label>
+                                        <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_tg_pec" ></textarea>
+                                    </mat-form-field>
+                                    <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                        <button mat-button color="primary" (click)="previewPlantilla(form.value.not_tg_pec)">Vista Previa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- SMS -->
+                    <mat-expansion-panel [disabled]="modo === '' || modo === null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Mensajes SMS de Notificación de pagos
+                                <mat-icon class="ml-auto">sms</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row" id="not-emails">
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Titular XP Cuenta (Max. 160 caracteres)</mat-label>
+                                    <input matInput placeholder="Mensaje SMS" type="string" formControlName="not_sms_cuenta" maxlength="160">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Persona En Cuenta (Max. 160 caracteres)</mat-label>
+                                    <input matInput placeholder="Mensaje SMS" type="string" formControlName="not_sms_pec" maxlength="160">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Pagador (Max. 160 caracteres)</mat-label>
+                                    <input matInput placeholder="Mensaje SMS" type="string" formControlName="not_sms_pagador" maxlength="160">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- WHATSAPP -->
+                    <mat-expansion-panel [disabled]="modo === '' || modo === null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Mensajes WhatsApp de Notificación de pagos
+                                <mat-icon class="ml-auto">aod</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Titular XP Cuenta</mat-label>
+                                    <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_ws_cuenta" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.not_ws_cuenta)">Vista Previa</button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Pagador</mat-label>
+                                    <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_ws_pagador" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.not_ws_pagador)">Vista Previa</button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Persona En Cuenta</mat-label>
+                                    <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="not_ws_pec" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.not_ws_pec)">Vista Previa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- VINCULACION -->
+                    <mat-expansion-panel [disabled]="modo === '' || modo === null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-description>
+                                Registro al bot de Telegram
+                                <mat-icon class="ml-auto">smart_toy</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-12 p-0">
+                                <mat-form-field class="w-100" appearance="fill">
+                                    <mat-label>Correo de Registro</mat-label>
+                                    <textarea matInput placeholder="Código HTML de plantilla" type="string" formControlName="vinculacion_tg" ></textarea>
+                                </mat-form-field>
+                                <div class="botonera-seleccion-usuario mt-1 mb-3">
+                                    <button mat-button color="primary" (click)="previewPlantilla(form.value.vinculacion_tg)">Vista Previa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

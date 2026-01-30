@@ -1,0 +1,33 @@
+<p>Seleccione una cuenta</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="bubble-container">
+                <div *ngFor="let xpaycuenta of dataSource" (click)="seleccionarXpayCuenta(xpaycuenta)">
+                    <div class="bubble" *ngIf="xpaycuenta.usr_x_cta.rol_1==='B' || xpaycuenta.usr_x_cta.rol_1==='S'">
+                        <div class="row">
+                            <div class="col-4 pr-1">
+                                <div class="img-xpcta">
+                                    <img class="w-100" [src]="xpaycuenta.url_avatar1" alt="">
+                                </div>
+                            </div>
+                            <div class="col-8 pl-1">
+                                <div class="text-center info-nombre-xpcta">
+                                    <div class="lh1 fw-bold">
+                                        {{xpaycuenta.nombre}}
+                                    </div>
+                                    <div class="lh1">
+                                        <small>
+                                            {{xpaycuenta.xpayctanro}}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

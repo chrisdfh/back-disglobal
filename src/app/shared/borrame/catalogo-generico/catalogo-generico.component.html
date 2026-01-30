@@ -1,0 +1,19 @@
+<p class="mb-0">{{data.titulo}}</p>
+
+<div class="container h-sp">
+    <div class="row h-100">
+        <div class="col-12 mh-100">
+            <div class="d-flex flex-column justify-content-between h-100">
+                <div class="msg pt-4">
+                    {{data.msg}}
+                </div>
+                
+                <!-- mat-dialog-actions -->
+                <div class="botonera border-top border-opacity-10"> 
+                    <button class="btn" mat-button [mat-dialog-close]="true" #btnTrue>{{data.btn_true_text}}</button>
+                    <button *ngIf="data.noCancel?data.noCancel:true" class="btn" mat-button [mat-dialog-close]="false" #btnFalse>{{data.btn_false_text}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

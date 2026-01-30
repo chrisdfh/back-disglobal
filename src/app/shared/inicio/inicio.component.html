@@ -1,0 +1,123 @@
+    <!-- <button type="button" [router]Link="['/persona']">
+        <mat-icon>manage_accounts</mat-icon>
+        Persona
+    </button> -->
+    <div class="text-center button-container pb-3 pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" *ngIf="titulo">
+                    <h2>
+                        {{titulo}} <span *ngIf="modoUsuario==='S'"> - SuperUsuario</span>
+                    </h2>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/persona']">
+                        <div>
+                            <mat-icon class="img-boton-principal">person</mat-icon>
+                        </div>
+                        Persona
+                    </button>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix">
+                        <div [routerLink]="['/xitypay']">
+                            <mat-icon class="img-boton-principal">payments</mat-icon>
+                        </div>
+                        <span [routerLink]="['/xitypay']">XityPay</span>
+                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/xitypay')"><mat-icon>open_in_new</mat-icon></span>
+                    </button>
+                </div>
+                
+                <div class="col-6 col-md-2 pb-3" *ngIf="modoUsuario==='S'">
+                    <button type="button" class="btn border m-2 icon-fix">
+                        <div [routerLink]="['/informacion-bancaria']">
+                            <mat-icon class="img-boton-principal">assured_workload</mat-icon>
+                        </div>
+                        <span [routerLink]="['/informacion-bancaria']">Información Bancaria</span>
+                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/informacion-bancaria')"><mat-icon>open_in_new</mat-icon></span>
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/transacciones']">
+                        <div>
+                            <mat-icon class="img-boton-principal">receipt_long</mat-icon>
+                        </div>
+                        Transacciones
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- DISGLOBAL -->
+
+            <hr />
+            <div class="row">
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix">
+                        <div [routerLink]="['/activar-pec']">
+                            <mat-icon class="img-boton-principal">fact_check</mat-icon>
+                        </div>
+                        <span [routerLink]="['/activar-pec']">Registros POS</span>
+                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/activar-pec')"><mat-icon>open_in_new</mat-icon></span>
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix">
+                        <div [routerLink]="['/cambiar-id']">
+                            <mat-icon class="img-boton-principal">change_circle</mat-icon>
+                        </div>
+                        <span [routerLink]="['/cambiar-id']">Cambiar Serial</span>
+                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/cambiar-id')"><mat-icon>open_in_new</mat-icon></span>
+                    </button>
+                </div>
+
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/users']">
+                        <div>
+                            <mat-icon class="img-boton-principal">password</mat-icon>
+                        </div>
+                        Gestión de Usuarios
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/user-xitypay']">
+                        <div>
+                            <mat-icon class="img-boton-principal">admin_panel_settings</mat-icon>
+                        </div>
+                        Usuarios XityPay
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/password-reset']">
+                        <div>
+                            <mat-icon class="img-boton-principal">lock_reset</mat-icon>
+                        </div>
+                        Reinicio de Contraseña
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/email-change']">
+                        <div>
+                            <mat-icon class="img-boton-principal">mark_email_read</mat-icon>
+                        </div>
+                        Cambio de Correo
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/username-change']">
+                        <div>
+                            <mat-icon class="img-boton-principal">contact_page</mat-icon>
+                        </div>
+                        Cambio de Alias BackOffice
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

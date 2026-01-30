@@ -1,0 +1,46 @@
+<p>{{data.titulo}}</p>
+
+<div [formGroup]="form">
+    <div class="container" >
+        <div class="row px-2">
+            <div class="col-12 px-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Nro Doc o Nombre</mat-label>
+                    <input type="text" matInput placeholder="" #inputQuery formControlName="query" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="botonera">
+    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+</div>
+
+
+<div #tableContainer class="container table-container" >
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8" *ngIf="dataSource.results" >
+
+        <ng-container matColumnDef="codnip">
+            <th mat-header-cell *matHeaderCellDef style="width:20%" class="text-center">Nro. Doc</th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.persona.codnip}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Tasker </th>
+            <td mat-cell *matCellDef="let element"> {{element.persona.nombreprimero}} {{element.persona.apellidoprimero}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectRowClick(row)"></tr>
+    </table>
+</div>
+
+
+<mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+[nextPageLabel]="'Siguiente'"
+(page)="onPageChange($event)"
+*ngIf="dataSource.results"></mat-paginator>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

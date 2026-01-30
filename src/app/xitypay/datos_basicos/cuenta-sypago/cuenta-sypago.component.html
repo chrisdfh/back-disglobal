@@ -1,0 +1,79 @@
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Cuentas Sypago
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario flex-wrap">
+    <button type="button" mat-button color="primary" (click)="agregarOEditarCuentaSypago()" >Agregar Cuenta Sypago</button>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Listado de cuentas Sypago, haga click en el botón "Agregar Cuenta Sypago" para agregar una cuenta nueva, o sobre el nombre de la cuenta para editarlo
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-2 pb-3" #top>
+
+    <div #tableContainer class="container table-container mb-5">
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8 table-fixed"  *ngIf="dataSource.results ;else noDataSource" >
+
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef class="w-25">Nombre</th>
+            <td  mat-cell *matCellDef="let element" class="w-25" (click)="agregarOEditarCuentaSypago(element)">{{element.nombre}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="usersypago" >
+            <th mat-header-cell *matHeaderCellDef class="d-noe d-md-table-cell">Usuario</th>
+            <td mat-cell *matCellDef="let element" class="d-noe d-md-table-cell">
+                {{element.usersypago}}
+            </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="secret">
+            <th mat-header-cell *matHeaderCellDef class="w-60p">Secret</th>
+            <td  mat-cell *matCellDef="let element" class="w-60p">{{element.secret}}</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="activo">
+            <th class="text-center d-nne d-md-table-cell" mat-header-cell *matHeaderCellDef>Activo</th>
+            <td class="text-center d-nne d-md-table-cell" mat-cell *matCellDef="let element">
+
+            <mat-slide-toggle class="mb-1" [ngClass]="element.activo" [checked]="element.activo==='S'" (change)="toggleActivo($event, element)">
+            </mat-slide-toggle>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="boton">
+            <th mat-header-cell *matHeaderCellDef ></th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon (click)="deleteCtaSypago(element)">delete</mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <ng-template #noDataSource>
+        <h5>No hay registros</h5>
+    </ng-template>
+</div>
+<div class="col-12">
+    <mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+        [nextPageLabel]="'Siguiente'"
+        [pageSizeOptions]="[15, 25, 50, 100]"
+        (page)="onPageChange($event)"
+        *ngIf="dataSource.results">
+    </mat-paginator>
+</div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

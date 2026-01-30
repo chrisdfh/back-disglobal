@@ -1,0 +1,36 @@
+<p>Subir archivo para {{data.titulo}}</p>
+
+<div class="container mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="msgInicial">
+                Selecciona el archivo a subir
+            </div>
+        </div>
+        <div class="col-12 my-3">
+            <div class="d-flex justify-content-between upload-line">
+                <div class="file-name-placeholder">
+                    {{fileNameToUpload || "No se ha seleccionado algún archivo"}}
+                </div>
+                <button mat-mini-fab type="button" #formButton class="btn" mat-button matSuffix (click)="inputFile.click()" >
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+
+                <input type="file" placeholder="Archivo" class="d-none" name="file" id="fileInput" #inputFile (change)="fileSelected($event)">
+            </div>
+        </div>
+             
+        <div class="col-12">
+            <!-- mat-dialog-actions -->
+            <div class="botonera border-top border-opacity-10"> 
+                <button type="button" #uploadButton class="btn" mat-button (click)="uploadFile()" disabled>Subir Archivo</button>
+
+                <button type="button" class="btn" mat-button [mat-dialog-close]="false" #btnFalse>Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

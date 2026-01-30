@@ -1,0 +1,328 @@
+<h2 class="mt-3">
+    Consulta de Afiliado
+</h2>
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+
+<div #main class="container">
+    <div class="pb-4" [formGroup]="form">
+        <small>Campos marcados con (*) son requeridos</small>
+
+
+        <div class="row pt-4">
+            <div class="col-12" [hidden]="form.value.nroafiliado===null">
+                <div class="extra-info">
+                    Nro afiliado: <strong><span #nroAfiliado ></span></strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-4 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Alias
+                    </mat-label>
+                    <input type="text" matInput maxlength="64"  formControlName="alias" (keyup)="formatAlias($event)" [readonly]="this.form.value.nroafiliado!==null">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-4 p-0">
+                <mat-form-field class="w-100">
+                    <mat-label>
+                        Tipo de Id.
+                    </mat-label>
+                    <mat-select formControlName="tipnip" (selectionChange)="changeNip($event)">
+                        <mat-option *ngFor="let tipnip of tablasApoyo.tipNip | callback:personaNatural" 
+                                    [value]="tipnip.tipnipcod">
+                                        {{tipnip.tipnipnombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-4 p-0">
+                <mat-form-field class="w-100" >
+                    <mat-label>
+                        Número de Id.
+                    </mat-label>
+                    <input matInput type="text" maxlength="30"  placeholder="J123456789" formControlName="codnip">
+                    <button #formButton class="btn" mat-button matSuffix (click)="catalogoPersona()" [disabled]="form.value.tipnip==='T'">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Primer Nombre</mat-label>
+                    <input matInput placeholder="Ej. Pedro" maxlength="64" formControlName="nombreprimero">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Segundo Nombre</mat-label>
+                    <input matInput placeholder="Ej. Antonio" maxlength="64" formControlName="nombresegundo">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field  class="w-100" appearance="fill">
+                    <mat-label>Primer Apellido</mat-label>
+                    <input matInput placeholder="Ej. Pérez" maxlength="64" formControlName="apellidoprimero">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Segundo Apellido</mat-label>
+                    <input matInput placeholder="Ej. García" maxlength="64" formControlName="apellidosegundo">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-4 p-0">
+                <span >
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>
+                            Sexo
+                        </mat-label>
+                        <mat-select formControlName="sexocod">
+                            <mat-option *ngFor="let sex of tablasApoyo.sexo" [value]="sex.sexocod">{{sex.sexonombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="col-6 col-md-4 p-0">
+                <span >
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>
+                            Edo. Civil
+                        </mat-label>
+                        <mat-select formControlName="edocivilcod">
+                            <mat-option *ngFor="let edocivil of tablasApoyo.edoCivil" [value]="edocivil.edocivilcod">{{edocivil.edocivilnombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="col-6 col-md-4 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Fch. Nacimiento</mat-label>
+                    <input  matInput placeholder="DD/MM/AAAA" formControlName="fechanacimiento"[matDatepicker]="fchNacimiento">
+                    <mat-datepicker-toggle matSuffix [for]="fchNacimiento"></mat-datepicker-toggle>
+                    <mat-datepicker #fchNacimiento  ></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Correo Principal</mat-label>
+                    <input  matInput placeholder="micorreo@dominio.com" formControlName="email_publico">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 p-0">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Correo Secundario</mat-label>
+                    <input  matInput placeholder="micorreo@dominio.com" formControlName="email_secundario">
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <!-- CORREO Y REDES SOCIALES -->
+        <mat-accordion>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Redes Sociales
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>
+                    <mat-card-content>
+                <div class="row p-3">
+                    <div class="col-12 p-0">
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Usuario Instagram
+                            </mat-label>
+                            <input matInput type="text" placeholder="eneltapete_oficial" formControlName="rs_instagram">
+                            <!-- <mat-hint>Usuario Instagram</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 p-0">
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Usuario Facebook
+                            </mat-label>
+                            <input matInput type="text" placeholder="mis.revistas" formControlName="rs_facebook">
+                            <!-- <mat-hint>Usuario Facebook</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 p-0">
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Usuario Twitter
+                            </mat-label>
+                            <input matInput type="text" placeholder="knoios" formControlName="rs_twitter">
+                            <!-- <mat-hint>Usuario Twitter</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <!-- TELEFONOS -->
+        <mat-accordion>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Listado de Teléfonos
+                        <mat-icon>phone_circle</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-list role="list" formArrayName="telefonos">
+                    <div [formGroupName]="i" *ngFor="let telefono of telefonos.controls; let i = index">
+                            <div class="row border border-radius p-3 mb-3">
+                                <div class="col-12 col-md-3 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Tipo de Teléfono</mat-label>
+                                        <mat-select formControlName="telefonotipcod" placeholder="Tipo de teléfono">
+                                            <mat-option *ngFor="let tipoTel of tablasApoyo.telefonoTipo" [value]="tipoTel.telefonotipcod">{{tipoTel.telefonotipnombre}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6 col-md-2 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>País</mat-label>
+                                        <input matInput formControlName="telefonocodigopais" placeholder="+58">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6 col-md-3 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Area</mat-label>
+                                        <input matInput formControlName="telefonocodigoarea" placeholder="0212">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-3 p-0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Número</mat-label>
+                                        <input matInput formControlName="telefononumero" placeholder="1234567">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-1 p-0">
+                                    <div class="d-flex h-100">
+                                        <button #formButton class="btn w-100" mat-button (click)="deleteTelefono(i)" *ngIf="visible"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <mat-card-actions class="d-flex justify-content-center">
+                        <button #formButton class="btn w-100" mat-button (click)="addTelefono(undefined)"><mat-icon>add</mat-icon>Añadir teléfono</button>
+                    </mat-card-actions>
+                </mat-list>
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+        <!-- DIRECCION -->
+        <mat-accordion>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Listado de Direcciones
+                        <mat-icon>location_on</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div formArrayName="direcciones">
+
+                    <div class="border p-3 border-radius" [formGroupName]="i" *ngFor="let direccion of direcciones.controls; let i = index">
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Tipo Dirección
+                            </mat-label>
+                                        <mat-select formControlName="dirtipocod" placeholder="Tipo de Dirección">
+                                            <mat-option *ngFor="let tipodir of tablasApoyo.tipoDireccion" [value]="tipodir.dirtipocod">{{tipodir.dirtiponombre}}</mat-option>
+                                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Dirección Línea 1
+                            </mat-label>
+                            <input matInput formControlName="direccion1">
+                        </mat-form-field>
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Dirección Línea 2
+                            </mat-label>
+                            <input matInput formControlName="direccion2">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Dirección Línea 3
+                            </mat-label>
+                            <input matInput formControlName="direccion3">
+                        </mat-form-field>
+                        
+                        <mat-form-field class="w-100">
+                            <mat-label>
+                                Dirección Línea 4
+                            </mat-label>
+                            <input matInput formControlName="direccion4">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-50">
+                            <mat-label>
+                                Localidad
+                            </mat-label>
+                            <input matInput formControlName="localidadtexto" readonly>
+                            <button #formButton class="btn" matSuffix (click)="catalogoLocalidad(i)">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-50">
+                            <mat-label>
+                                Código Postal
+                            </mat-label>
+                            <input matInput formControlName="codpostalcod" placeholder="Ej. 1040">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-50">
+                            <mat-label>
+                                Ubicación GPS
+                            </mat-label>
+                            <input matInput placeholder="00.00000,00.00000" (blur)="parseGpsData($event,i)" [disabled]="!visible">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-25">
+                            <mat-label>
+                                Latitud
+                            </mat-label>
+                            <input type="number" matInput formControlName="dir_latitud">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-25">
+                            <mat-label>
+                                Longitud
+                            </mat-label>
+                            <input type="number" matInput formControlName="dir_longitud">
+                        </mat-form-field>
+                        <button #formButton class="btn" mat-button (click)="deleteDireccion(i)" *ngIf="visible"><mat-icon>delete</mat-icon>Eliminar</button>
+                    </div>
+                </div>
+                
+                <mat-card-actions>
+                    <button #formButton class="btn w-100" mat-button (click)="addDireccion(undefined)"><mat-icon>add</mat-icon>Añadir dirección</button>
+                </mat-card-actions>
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+    </div>
+</div> <!-- FIN DEL CONTENEDOR -->
+
+<app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

@@ -1,0 +1,72 @@
+<p>{{data.titulo}}</p>
+
+<div [formGroup]="form">
+    <div class="container">
+        <div class="row px-2">
+            <div class="col-4 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Nro Persona</mat-label>
+                    <input matInput placeholder="Ej. 123456789" type="number" formControlName="nropersona" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-4 p-1">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Serial del equipo</mat-label>
+                    <input matInput placeholder="Ej. 123456789" type="text" formControlName="codnip" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-4 p-1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Ej. Carlos" #inputNombre formControlName="nombre" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="botonera">
+    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+</div>
+<div #tableContainer class="container table-container multiple-buttons" >
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8" *ngIf="dataSource.results" >
+        <ng-container matColumnDef="nropersona">
+            <th mat-header-cell *matHeaderCellDef style="width:10%" class="text-center"> Nro. Persona</th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.nropersona}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipnip">
+            <th mat-header-cell *matHeaderCellDef style="width:10%" class="text-center"> Tipo </th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.persona.tipnip}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="codnip">
+            <th mat-header-cell *matHeaderCellDef style="width:10%"> Serial </th>
+            <td mat-cell *matCellDef="let element"> {{element.persona.codnip}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombrecorto">
+            <th mat-header-cell *matHeaderCellDef> Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{element.persona.nombrecorto}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectRowClick(row)"></tr>
+    </table>
+</div>
+
+
+<mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+[nextPageLabel]="'Siguiente'"
+(page)="onPageChange($event)"
+*ngIf="dataSource.results"></mat-paginator>
+
+<div class="botonera d-none">
+    <button type="button" (click)="onAceptClick()">Cerrar</button>
+    <button type="button" mat-button color="primary" (click)="buscar()">Buscar</button>
+</div>
+
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

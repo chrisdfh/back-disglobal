@@ -1,0 +1,75 @@
+<p>Destacar Oferta de {{data.aliado.persona.nombrecorto}}</p>
+
+<div class="container pb-2">
+    <div class="row">
+        <div class="col-3 pr-1">
+            <div class="img-destacados">
+                <img class="w-100 constrain-img" src="{{data.recursos[0].url||''}}" alt="ImagenOferta">
+            </div>
+        </div>
+        <div class="col-9 pl-1">
+            <div>
+                Oferta: #{{data.nrooferta}}
+            </div>
+            <div>
+                {{data.oferta}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" [formGroup]="form">
+    <div class="row px-2">
+        <div class="col-md-4 col-12 p-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Fecha de destaque
+                </mat-label>
+
+                <mat-date-range-input [rangePicker]="picker" >
+                    <input matStartDate placeholder="Comienzo" (dateInput)="log('start',$event)">
+                    <input matEndDate placeholder="Final"(dateInput)="log('end',$event)">
+                </mat-date-range-input>
+                <!-- <mat-hint>DD/MM/AAAA – DD/MM/AAAA</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <small *ngIf="dateError">Seleccione como máximo 7 días</small>
+        </div>
+
+        <div class="col-md-4 col-12 p-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Categoría
+                </mat-label>
+                <mat-select formControlName="categoriacod">
+                    <mat-option *ngFor="let categoria of tablasApoyo.categoria" [value]="categoria.cod">
+                        {{categoria.nombre}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 col-12 p-1">
+            <mat-form-field class="w-100">
+                <mat-label>
+                    Nivel
+                </mat-label>
+                <mat-select formControlName="estatuscod">
+                    <mat-option *ngFor="let nivel of nivelDestacados" [value]="nivel">
+                        {{nivel}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+
+<div class="container pt-4 btn-container text-center" >
+            <button mat-button mat-dialog-close class="btn-standard fix-icon mx-2">Cerrar <mat-icon>close</mat-icon></button>
+            <button mat-button class="btn-standard fix-icon mx-2" [disabled]="dateError" (click)="destacaOferta()">Destacar <mat-icon>workspace_premium</mat-icon></button>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

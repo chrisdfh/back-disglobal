@@ -1,0 +1,69 @@
+
+<div class="row pb-2 pt-4">
+    <div class="col-12">
+        <h2 class="text-center">
+            Configuración Notificaciones XityPay
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario">
+    <button mat-button class="btn" (click)="openNewTab(defaultTemplate)" color="primary">Descargar Plantilla</button>
+    <button mat-button class="btn" (click)="openNewTab(configFile)" color="primary">Descargar Notificación Actual</button>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2">
+            <div class="info-text">
+                Edite el archivo de configuración y luego haga click sobre el botón "Cargar Archivo".
+            </div>
+            <div class="info-text">
+                Los cambios serán aplicados inmediatamente
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="uploadFile('xpay-msg', 'Configuración XP')">Cargar Archivo</button>
+</div>
+
+<!--  -->
+<div class="container pt-3" *ngIf="data !== undefined && (data.image !== ''|| data.messages.length > 0);else noNotifications" >
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2">
+            <div class="info-text">
+                Actualmente, se tiene la siguiente configuración de notificación:
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-12 col-md-4 border border-1">
+            <h5 class="text-center my-3">Imagen de Notificación</h5>
+            <img class="w-100 pb-3" [src]="data.image" alt="">
+        </div>
+        <div class="col-12 col-md-8 border border-1" >
+            <h5 class="my-3">Mensajes</h5>
+            <div class="d-flex flex-column messages">
+                <div class="info-text pb-4" *ngFor="let msg of data.messages; index as i ">
+                    <div class="mensaje">
+                        Mensaje #{{i+1}}: <b>{{msg.message}}</b>
+                    </div>
+                    <div class="mensaje-url pl-3" *ngIf="msg.url!==''">
+                        Al hacer click: <a href="{{msg.url}}" target="_blank"><b>{{msg.url}}</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template class="container pt-3" #noNotifications>
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2">
+            <div class="info-text">
+                No se tiene alguna notificación configurada
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,116 @@
+<p>{{data.titulo}}</p>
+
+<div [formGroup]="form">
+    <div class="container" >
+        <div class="row px-3">
+            <div class="col-3 col-md-2 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Nro Tasker</mat-label>
+                    <input #nrotasker type="number" matInput placeholder=""formControlName="nrotasker" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-1" [formGroupName]="'tasker'" >
+                <mat-form-field appearance="fill" class="w-100" [formGroupName]="'persona'">
+                    <mat-label>Nombre</mat-label>
+                    <input #nombrecompleto type="text" matInput placeholder=""formControlName="nombrecompleto" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-3 col-md-2 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Nro Servicio</mat-label>
+                    <input  type="number" matInput placeholder=""formControlName="nroservicio" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-2 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Categoría</mat-label>
+                    <input  type="text" matInput placeholder=""formControlName="categoriapadrenombre" (keyUp.enter)="buscar()" readonly>
+                    <button #formButton class="btn" matSuffix (click)="catalogoCatTasker()">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 p-1">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Criterio de búsqueda</mat-label>
+                    <input  type="text" matInput placeholder=""formControlName="query" (keyUp.enter)="buscar()">
+                </mat-form-field>
+            </div>
+            <div class="col-12 p-1 text-center">
+                <!-- <mat-slide-toggle class="p-3" formControlName="activo">Activo</mat-slide-toggle>
+                <mat-slide-toggle class="p-3" formControlName="vigente">Vigente</mat-slide-toggle>
+                <mat-slide-toggle class="p-3" formControlName="verificado">Verificado</mat-slide-toggle>
+                <mat-slide-toggle class="p-3" formControlName="aprobado">Aprobado</mat-slide-toggle> -->
+
+                <div class="botonera d-inline-flex">
+                    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+                    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="botonera d-none">
+    <button (click)="onAceptClick()"> <mat-icon>close</mat-icon> Cerrar</button>
+    <button mat-button color="primary" (click)="buscar()"> <mat-icon>search</mat-icon> Buscar</button>
+</div>
+
+<div #tableContainer class="container table-container multiple-buttons" >
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8" *ngIf="dataSource.results" >
+
+        <ng-container matColumnDef="nroaliado" style="width:5%">
+            <th mat-header-cell *matHeaderCellDef  class="text-center"> Nro T.</th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.nrotasker}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="aliado">
+            <th mat-header-cell *matHeaderCellDef > Tasker </th>
+            <td mat-cell *matCellDef="let element"> {{element.tasker.persona.nombrecorto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nrooferta">
+            <th mat-header-cell *matHeaderCellDef style="width:5%" class="text-center"> Nro S.</th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.nroservicio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoriacod">
+            <th mat-header-cell *matHeaderCellDef style="width:5%" class="text-center"> Cat. </th>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{element.categoriacod}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="oferta">
+            <th mat-header-cell *matHeaderCellDef> Servicio </th>
+            <td mat-cell *matCellDef="let element"> {{element.servicio}} </td>
+        </ng-container>
+
+<ng-container matColumnDef="fch_desde">
+    <th mat-header-cell *matHeaderCellDef> Desde </th>
+    <td mat-cell *matCellDef="let element"> 
+        <small>
+            {{fixDate(element.vigente_desde)}} 
+        </small>
+    </td>
+</ng-container>
+
+<ng-container matColumnDef="fch_hasta">
+    <th mat-header-cell *matHeaderCellDef> Hasta </th>
+    <td mat-cell *matCellDef="let element"> 
+        <small>
+            {{fixDate(element.vigente_hasta)}} 
+        </small>
+    </td>
+</ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectRowClick(row)"></tr>
+    </table>
+</div>
+
+<mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+[nextPageLabel]="'Siguiente'"
+(page)="onPageChange($event)"
+*ngIf="dataSource.results"></mat-paginator>
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

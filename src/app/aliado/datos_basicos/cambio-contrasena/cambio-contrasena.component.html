@@ -1,0 +1,56 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para reestablecer la contraseña de un aliado, seleccionelo de la lista y haga click sobre el botón "Reestablecer Contraseña", en su próximo login, deberá usar su número de RIF y el sistema le solicitará cambiar la contraseña.
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="passwordChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{passwordChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                <div class="col-6 col-md-4 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Nro Aliado
+                        </mat-label>
+                        <input matInput type="text" readonly formControlName="nroaliado">
+                        <button mat-button matSuffix class="btn" (click)="cargaAliado()"><mat-icon>search</mat-icon></button>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 col-md-4 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Usuario
+                        </mat-label>
+                        <input matInput type="text" readonly formControlName="usuario">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-4 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Correo Principal
+                        </mat-label>
+                        <input matInput type="text" readonly formControlName="correo">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="resetPwd()">
+                        <mat-icon>lock_open_right</mat-icon>
+                        Reestablecer contraseña 
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

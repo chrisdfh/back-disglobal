@@ -1,0 +1,149 @@
+<p>Programación del día {{corrigeFecha(data.fecha)}}</p>
+
+<div class="container text-center">
+    <h4 class="d-inline-block px-2">
+        Categoría: {{datosGrilla.categoriacod}}
+    </h4>
+    <h4 class="d-inline-block px-2">
+        Nivel: {{datosGrilla.estatuscod}}
+    </h4>
+    <div class="font-weight-bold">
+        Max: {{datosGrilla.cantidad_max||0}}; Uso: {{datosGrilla.cantidad||0}}; Disp: {{datosGrilla.cantidad_disp||0}}
+    </div>
+</div>
+<div class="container btn-container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <button class="btn-standard fix-icon m-1 spx" mat-button (click)="cargaOferta()" [disabled]="datosGrilla.cantidad_max==datosGrilla.cantidad">
+                <mat-icon matSuffix>
+                    search
+                </mat-icon>
+                Buscar Oferta 
+            </button>
+            <button mat-dialog-close mat-button class="btn-standard fix-icon m-1 spx">
+                <mat-icon matSuffix>
+                    close
+                </mat-icon>
+                Cerrar
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="container" id="cont-ofertas-destacadas">
+    <div class="row">
+        <div class="col-12">
+            <mat-card class="p-1 m-2" *ngFor="let oferta of ofertasGrilla; index as i">
+                <mat-card-content class="lista-ofertas-destacadas">
+                    <div class="row">
+                        <div class="col-12 col-md-2 pr-1">
+                            {{oferta.aliado.persona.nombrecorto}}
+                        </div>
+                        <div class="col-12 col-md-7 px-1">
+                            {{oferta.oferta}}
+                        </div>
+                        <div class="col-12 col-md-2 pl-1">
+                            <div>
+                                {{oferta.vigente_desde}}
+                            </div>
+                            <div>
+                                {{oferta.vigente_hasta}}
+                            </div>
+                        </div>
+                    </div>
+                    <button matButton class="btn delete-oferta-destacada" (click)="desDestacarOferta(oferta)">
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="container edita-grilla" >
+    <div class="row">
+        <div class="col-12">
+            <mat-accordion >
+                <mat-expansion-panel class="p-1 m-2">
+                     <!-- expanded -->
+                  <!--  <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Destacar Oferta
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header> -->
+
+                    <div class="container pt-2" *ngIf="ofertaADestacar != undefined">
+                        <div class="row">
+                            <div class="col-10 pr-1">
+                                <mat-card class="p-1" *ngIf="ofertaADestacar != undefined">
+                                    <mat-card-content class="lista-ofertas-destacadas">
+                                        <div class="row">
+                                            <div class="col-12 col-md-3">
+                                                {{ofertaADestacar.aliado.persona.nombrecorto}}
+                                            </div>
+                                            <div class="col-12 col-md-7">
+                                                {{ofertaADestacar.oferta}}
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <div>
+                                                    {{ofertaADestacar.vigente_desde}}
+                                                </div>
+                                                <div>
+                                                    {{ofertaADestacar.vigente_hasta}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-2 pl-1">
+                                <div class="d-flex align-items-center h-100">
+                                    <button [disabled]="ofertaADestacar == undefined" class="btn-standard fix-icon w-100 spp" mat-button (click)="destacarOferta()">
+                                        <mat-icon matSuffix>
+                                            workspace_premium 
+                                        </mat-icon>
+                                        <span class="d-none d-md-inline-block">
+                                            Destacar
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="row">
+                        <div class="col-6 p-1">
+                            <button class="btn-standard fix-icon w-100" mat-button (click)="cargaOferta()">
+                                <mat-icon matSuffix>
+                                    search
+                                </mat-icon>
+                                Buscar Oferta 
+                            </button>
+                        </div>
+                        <div class="col-6 p-1">
+                            <button [disabled]="ofertaADestacar == undefined" class="btn-standard fix-icon w-100" mat-button (click)="destacarOferta()">
+                                <mat-icon matSuffix>
+                                    workspace_premium 
+                                </mat-icon>
+                                Destacar Oferta
+                            </button>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="spinner-container" *ngIf="showSpinner" >
+    <mat-spinner color="warn"></mat-spinner>
+</div>

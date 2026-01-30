@@ -1,0 +1,241 @@
+[
+  {
+    "apiTestUrl": "https://test-api.xitypay.com",
+    "apiDefaultUrl": "https://micropersona.xityclub.com",
+    "apiSecuredUrl-FORlogin": "https://api.xitypay.com",
+
+
+    "ciaopr": {
+      "ciaopr": "1",
+      "nombre": "Xityclub",
+      "razon_social": "Xityclub",
+      "por_defecto": true
+    },
+    "app_name":"BackOffice",
+    "app_compile_date": 251119,
+
+    "apiUrl": "https://test-api.xitypay.com",
+    "apiPersona": "https://test-api.xitypay.com",
+    "xitypay_base_url":"https://test.xitypay.com",
+    "apiSecuredUrl": "https://test-api.xitypay.com",
+
+
+    "favico": "./opg.png",
+    "logo_1": "https://www.xityclub.com/img/xityclub.png",
+    "logo_2": "./opg.png",
+    "logo_3": "./opg.png",
+    "logo_4": "./opg.png",
+    "recursosDefault":[
+      "https://mmedia.misrevistas.com/XTC/19638/xityclub-xity-0000jpg-32417.jpg",
+      "https://mmedia.misrevistas.com/XTC/19638/xityclub-xity-0010jpg-32416.jpg"
+    ],
+    "nivelesDestacamiento":["DES1","DES2"],
+    "estatusTipoCod":"EO1",
+    "tablasApoyo": {
+      "sexo": [
+        { "sexocod": "M", "sexonombre": "Masculino", "valorpordefecto": "S" },
+        { "sexocod": "F", "sexonombre": "Femenino", "valorpordefecto": "N" },
+        { "sexocod": "X", "sexonombre": "No Responde", "valorpordefecto": "N" }
+      ],
+      "tipoDireccion": [
+        { "dirtipocod": "HAB", "dirtiponombre": "Habitación", "valorpordefecto": "S" },
+        { "dirtipocod": "OFC", "dirtiponombre": "Oficina", "valorpordefecto": "N" },
+        { "dirtipocod": "PPL", "dirtiponombre": "Principal", "valorpordefecto": "N" }
+      ],
+      "tipNip": [
+        { "tipnipcod": "V", "tipnipnombre": "Venezolano", "personatipocod": "N", "valorpordefecto": "S" },
+        { "tipnipcod": "E", "tipnipnombre": "Extranjero", "personatipocod": "N", "valorpordefecto": "N" },
+        { "tipnipcod": "P", "tipnipnombre": "Pasaporte", "personatipocod": "N", "valorpordefecto": "N" },
+        { "tipnipcod": "T", "tipnipnombre": "Temporal", "personatipocod": "N", "valorpordefecto": "N" },
+        { "tipnipcod": "S", "tipnipnombre": "Sistema", "personatipocod": "N", "valorpordefecto": "N" },
+        { "tipnipcod": "A", "tipnipnombre": "Aliado Persona Natural", "personatipocod": "N", "valorpordefecto": "N" },
+        { "tipnipcod": "J", "tipnipnombre": "Jurídico", "personatipocod": "J", "valorpordefecto": "N" },
+        { "tipnipcod": "G", "tipnipnombre": "Gubernamental", "personatipocod": "J", "valorpordefecto": "N" },
+        { "tipnipcod": "TJ", "tipnipnombre": "Temporal Jurídico", "personatipocod": "J", "valorpordefecto": "N" }
+      ],
+      "telefonoTipo": [
+        { "telefonotipcod": "CEL", "telefonotipnombre": "Celular", "valorpordefecto": "S" },
+        { "telefonotipcod": "FAX", "telefonotipnombre": "Fax", "valorpordefecto": "N" },
+        { "telefonotipcod": "CON", "telefonotipnombre": "Convencional", "valorpordefecto": "N" },
+        { "telefonotipcod": "HAB", "telefonotipnombre": "Habitación", "valorpordefecto": "N" },
+        { "telefonotipcod": "M1", "telefonotipnombre": "Teléfono de Móvil 1", "valorpordefecto": "N" },
+        { "telefonotipcod": "M2", "telefonotipnombre": "Teléfono de Móvil 2", "valorpordefecto": "N" },
+        { "telefonotipcod": "M3", "telefonotipnombre": "Teléfono de Móvil 3", "valorpordefecto": "N" },
+        { "telefonotipcod": "MAS", "telefonotipnombre": "Master", "valorpordefecto": "N" },
+        { "telefonotipcod": "OFC", "telefonotipnombre": "Teléfono de Oficina", "valorpordefecto": "N" },
+        { "telefonotipcod": "PPL", "telefonotipnombre": "Principal", "valorpordefecto": "N" },
+        { "telefonotipcod": "WSP", "telefonotipnombre": "WhatsApp", "valorpordefecto": "N" }
+      ],
+      "edoCivil": [
+        { "edocivilcod": "C", "edocivilnombre": "Casado(a)", "valorpordefecto": "N" },
+        { "edocivilcod": "D", "edocivilnombre": "Divorciado(a)", "valorpordefecto": "N" },
+        { "edocivilcod": "S", "edocivilnombre": "Soltero(a)", "valorpordefecto": "S" },
+        { "edocivilcod": "V", "edocivilnombre": "Viudo(a)", "valorpordefecto": "N" },
+        { "edocivilcod": "U", "edocivilnombre": "Unión Libre", "valorpordefecto": "N" },
+        { "edocivilcod": "X", "edocivilnombre": "No Responde", "valorpordefecto": "N" }
+      ],
+      "publicoOrientado":[
+        { "cod":"T","nombre":"Todo Público" },
+        { "cod":"M","nombre":"Adultos Mayores" },
+        { "cod":"C","nombre":"Adultos Contemporáneos" },
+        { "cod":"J","nombre":"Jóvenes +18" },
+        { "cod":"A","nombre":"Adolescentes" }
+      ],
+      "categoria":[
+        { "cod":"AUT","nombre":"Automotores" },
+        { "cod":"BIE","nombre":"Bienestar" },
+        { "cod":"ELE","nombre":"Electrónica y Comunicaciones" },
+        { "cod":"ENT","nombre":"Entretenimiento" },
+        { "cod":"EVE","nombre":"Agenda Activa" },
+        { "cod":"GAS","nombre":"Gastronomía" },
+        { "cod":"HOG","nombre":"Hogar" },
+        { "cod":"PER","nombre":"Mejoramiento Personal" },
+        { "cod":"MOD","nombre":"Moda" },
+        { "cod":"TUR","nombre":"Turismo" },
+        { "cod":"SAL","nombre":"Salud" },
+        { "cod":"OTR","nombre":"Otra" },
+        { "cod":"HOM","nombre":"HOME" }
+
+      ],
+      "estatusOferta":[
+        { "cod":"DEH","nombre":"Destacado en Home 1", "valorpordefecto": "N" },
+        { "cod":"DEC","nombre":"Destacado en Home 2", "valorpordefecto": "N" },
+        { "cod":"IHP1","nombre":"Destacado 1 en Categoría", "valorpordefecto": "N" },
+        { "cod":"ICP1","nombre":"Destacado 2 en Categoría", "valorpordefecto": "N" },
+        { "cod":"SET1","nombre":"Sin Destacar", "valorpordefecto": "N" },
+        { "cod":"OND","nombre":"No Posee Status", "valorpordefecto": "S" }
+      ],
+      "nacionalidad": [
+        { "nacionalidadcod": "AFR", "nacionalidadnombre": "Africana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ALM", "nacionalidadnombre": "Alemana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ARG", "nacionalidadnombre": "Argentina" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ASI", "nacionalidadnombre": "Asitica" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "AUL", "nacionalidadnombre": "Australiana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "AUS", "nacionalidadnombre": "Austriaca" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "BEL", "nacionalidadnombre": "Bélgica" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "BOL", "nacionalidadnombre": "Boliviana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "BRZ", "nacionalidadnombre": "Brasileña" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "BUL", "nacionalidadnombre": "Bulgaria" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CAM", "nacionalidadnombre": "Camerún" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CAN", "nacionalidadnombre": "Canadiense" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CHE", "nacionalidadnombre": "Checoslovaquia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CHI", "nacionalidadnombre": "Chilena" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CHN", "nacionalidadnombre": "China" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "COL", "nacionalidadnombre": "Colombiana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "COR", "nacionalidadnombre": "Costa Ricense" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "CUB", "nacionalidadnombre": "Cubana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ECU", "nacionalidadnombre": "Ecuatoriana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ESP", "nacionalidadnombre": "Española" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "EUA", "nacionalidadnombre": "EE UU" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "EUR", "nacionalidadnombre": "Europa (otro)" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "FIL", "nacionalidadnombre": "Filipinas" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "FIN", "nacionalidadnombre": "Finlandia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "FRA", "nacionalidadnombre": "Francesa" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "GRI", "nacionalidadnombre": "Grecia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "GUA", "nacionalidadnombre": "Guatemala" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "HAI", "nacionalidadnombre": "Haití" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "HOL", "nacionalidadnombre": "Holanda" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "HON", "nacionalidadnombre": "Honduras" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "IND", "nacionalidadnombre": "India" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ING", "nacionalidadnombre": "Inglaterra, Británico" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "IRL", "nacionalidadnombre": "Irlanda" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ISR", "nacionalidadnombre": "Israel" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "ITA", "nacionalidadnombre": "Italia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "JAM", "nacionalidadnombre": "Jamaica" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "JAP", "nacionalidadnombre": "Japón" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "LIB", "nacionalidadnombre": "Líbano" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "MEX", "nacionalidadnombre": "Méxicana" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "NIC", "nacionalidadnombre": "Nicaraguense" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "NIG", "nacionalidadnombre": "Nigeria" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "NOR", "nacionalidadnombre": "Noruega" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "PAN", "nacionalidadnombre": "Panameña" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "PAR", "nacionalidadnombre": "Paraguaya" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "PER", "nacionalidadnombre": "Peruna" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "POL", "nacionalidadnombre": "Polonia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "POR", "nacionalidadnombre": "Portugues" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "PUE", "nacionalidadnombre": "Puerto Riqueño" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "RUS", "nacionalidadnombre": "Rusia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "SAL", "nacionalidadnombre": "Salvadoreño" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "SDO", "nacionalidadnombre": "Santo Domingo" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "SUE", "nacionalidadnombre": "Sueca" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "SUI", "nacionalidadnombre": "Suiza" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "SUR", "nacionalidadnombre": "Surinám" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "TAI", "nacionalidadnombre": "Tailandia" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "TRI", "nacionalidadnombre": "Trinidad & Tobago" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "TUR", "nacionalidadnombre": "Turquía" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "URU", "nacionalidadnombre": "Uruguayo" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "VEN", "nacionalidadnombre": "Venezolana" , "valorpordefecto": "S" },
+        { "nacionalidadcod": "VIE", "nacionalidadnombre": "VietNam" , "valorpordefecto": "N" },
+        { "nacionalidadcod": "OTR", "nacionalidadnombre": "Otro País", "valorpordefecto": "N"  }
+      ],
+      "entidadesFinancieras": [
+        { "ciaopr": "1", "entidadcod": "0102", "nombre": "Banco de Venezuela" },
+        { "ciaopr": "1", "entidadcod": "0104", "nombre": "Banco Venezolano de Crédito" },
+        { "ciaopr": "1", "entidadcod": "0105", "nombre": "Banco Mercantil" },
+        { "ciaopr": "1", "entidadcod": "0108", "nombre": "Banco Provincial" },
+        { "ciaopr": "1", "entidadcod": "0114", "nombre": "Banco del Caribe" },
+        { "ciaopr": "1", "entidadcod": "0115", "nombre": "Banco Exterior" },
+        { "ciaopr": "1", "entidadcod": "0128", "nombre": "Banco Caroní" },
+        { "ciaopr": "1", "entidadcod": "0134", "nombre": "Banesco " },
+        { "ciaopr": "1", "entidadcod": "0137", "nombre": "Banco Sofitasa " },
+        { "ciaopr": "1", "entidadcod": "0138", "nombre": "Banco Plaza" },
+        { "ciaopr": "1", "entidadcod": "0146", "nombre": "Banco de la Gente Emprendedora" },
+        { "ciaopr": "1", "entidadcod": "0151", "nombre": "Banco Fondo Común" },
+        { "ciaopr": "1", "entidadcod": "0156", "nombre": "100% Banco" },
+        { "ciaopr": "1", "entidadcod": "0157", "nombre": "DelSur" },
+        { "ciaopr": "1", "entidadcod": "0163", "nombre": "Banco del Tesoro" },
+        { "ciaopr": "1", "entidadcod": "0166", "nombre": "Banco Agrícola de Venezuela" },
+        { "ciaopr": "1", "entidadcod": "0168", "nombre": "Bancrecer" },
+        { "ciaopr": "1", "entidadcod": "0169", "nombre": "Mi Banco" },
+        { "ciaopr": "1", "entidadcod": "0171", "nombre": "Banco Activo" },
+        { "ciaopr": "1", "entidadcod": "0172", "nombre": "Bancamiga " },
+        { "ciaopr": "1", "entidadcod": "0173", "nombre": "Banco Internacional de Desarrollo" },
+        { "ciaopr": "1", "entidadcod": "0174", "nombre": "Banplus " },
+        { "ciaopr": "1", "entidadcod": "0175", "nombre": "Banco Bicentenario del Pueblo" },
+        { "ciaopr": "1", "entidadcod": "0177", "nombre": "Banco de la Fuerza Armada Nacional Bolivariana" },
+        { "ciaopr": "1", "entidadcod": "0178", "nombre": "N58 Banco Digital" },
+        { "ciaopr": "1", "entidadcod": "0191", "nombre": "Banco Nacional de Crédito" },
+        { "ciaopr": "1", "entidadcod": "0601", "nombre": "Instituto Municipal de Crédito Popular" }
+      ],
+      "tiposDeCuenta":[
+        { "cod": "C", "nombre": "Cuenta Corriente" },
+        { "cod": "A", "nombre": "Cuenta Ahorro" }
+      ],
+      "categoriasTasker":[
+        { "cod": "00", "nombre": "Tareas del Hogar" },
+        { "cod": "01", "nombre": "Electricidad y Electrónica" },
+        { "cod": "02", "nombre": "Plomería" },
+        { "cod": "03", "nombre": "Carpintería" },
+        { "cod": "04", "nombre": "Obras Menores para el Hogar" },
+        { "cod": "05", "nombre": "Limpieza" },
+        { "cod": "06", "nombre": "Exteriores y Áreas Verdes" },
+        { "cod": "07", "nombre": "Transporte y Mudanzas" },
+        { "cod": "08", "nombre": "Remodelaciones" },
+        { "cod": "21", "nombre": "Salud" },
+        { "cod": "41", "nombre": "Mantenimiento" },
+        { "cod": "45", "nombre": "Servicios de Asistentes Personales" },
+        { "cod": "55", "nombre": "Servicios para Oficinas" },
+        { "cod": "77", "nombre": "Otros" }
+      ],
+      "clasificacionTasker":[
+        { "cod": "O", "nombre": "Oro" },
+        { "cod": "P", "nombre": "Plata" },
+        { "cod": "B", "nombre": "Bronce" }
+      ]
+    },
+    "avatars": [
+      "https://scienceoxford.com/wp-content/uploads/2018/03/avatar-male.jpg",
+      "https://healingcenterseattle.org/thcroot/wp-content/uploads/2020/08/Female-Avatar.png"
+    ],
+    "emailRemitentesNot":[
+      {
+        "email":"XityPay <enlaces@xitypay.com>",
+        "habilitado":true
+      },
+      {
+        "email":"XityPay <noreply@knoios.com>",
+        "habilitado":false
+      }
+    ]
+}
+]

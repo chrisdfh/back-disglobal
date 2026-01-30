@@ -1,0 +1,75 @@
+/* table.detalle-transaccion{
+
+    overflow-y: scroll;
+
+    & *{
+    cursor: unset;
+    }
+
+    & td{
+        border-top:none;
+        padding-block:3px;
+
+        &:first-of-type{
+            color:rgb(28, 28, 157);
+            text-align: right;
+            width: 35%;
+            padding-right: 15px;
+            &::after{
+                content:':';
+                display: inline-block;
+            }
+        }
+        &:last-of-type{
+            text-align: left;
+            font-weight: bold;
+
+            &.ACCP{
+                color:green;
+            }
+            &.RJCT{
+                color:red;
+            }
+        }
+    }
+} */
+
+table.detalle-transaccion{
+    overflow-y: scroll;
+}
+table.detalle-transaccion td{
+    border-top:none;
+    padding-block:3px;
+}
+table.detalle-transaccion td:first-of-type{
+    color:rgb(28, 28, 157);
+    text-align: right;
+    width: 35%;
+    padding-right: 15px;
+}
+table.detalle-transaccion td:first-of-type::after{
+    content:':';
+    display: inline-block;
+}
+table.detalle-transaccion td:last-of-type{
+    text-align: left;
+    font-weight: bold;
+}
+table.detalle-transaccion td:last-of-type.ACCP{
+    color:green;
+}
+table.detalle-transaccion td:last-of-type.RJCT{
+    color:red;
+}
+table.detalle-transaccion *{
+    cursor: unset;
+}
+
+.botonera{
+    position: sticky;
+  bottom: 0;
+  background: white;
+}
+.break-word{
+    word-break:break-word;
+}

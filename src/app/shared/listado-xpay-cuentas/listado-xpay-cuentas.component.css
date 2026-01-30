@@ -1,0 +1,26 @@
+.img-xpcta img{
+    width: 100%;
+    object-fit: contain;
+    aspect-ratio: 1;
+}
+.bubble{
+    border:1px solid grey;
+    padding:5px;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 90%;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+}
+.bubble:hover{
+    background-color: lightgrey;
+}
+.bubble-container{
+    height: 450px;
+    overflow-y: auto;
+}
+.info-nombre-xpcta{
+    display: grid;
+    place-content: center;
+    height: 100%;
+}

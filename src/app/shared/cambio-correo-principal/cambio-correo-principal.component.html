@@ -1,0 +1,59 @@
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Cambio de Correo Electrónico
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="getUsuario()">Buscar Usuario</button>
+</div>
+
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Para cambiar el <span class="fw-bold">correo electrónico principal</span>, seleccione un usuario de alguana de las listas y haga click sobre el botón "Cambiar Email".
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2" *ngIf="passwordChanged">
+                    <div class="alert alert-success" role="alert">
+                         <mat-icon class="fix-me">done</mat-icon> <strong>{{passwordChangedMessage}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [formGroup]="form">
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Email Actual
+                        </mat-label>
+                        <input matInput placeholder="usuario@dominio.com" type="text" readonly formControlName="email_publico">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <mat-form-field class="w-100">
+                        <mat-label>
+                            Email Nuevo
+                        </mat-label>
+                        <input matInput type="text" placeholder="usuario@dominio.com" formControlName="email_publico_new">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 text-center">
+                    <button mat-button class="btn-standard fix-icon" (click)="changeUsername()" [disabled]="form.value.email_publico===''">
+                        <mat-icon>email</mat-icon>
+                        Cambiar Email
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>

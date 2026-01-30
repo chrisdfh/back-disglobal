@@ -1,0 +1,178 @@
+
+
+<div class="row pt-4 pb-2">
+    <div class="col-12">
+        <h2 class="text-center">
+            Personas receptoras de pago XityPay
+        </h2>
+    </div>
+</div>
+<div class="botonera-seleccion-usuario">
+    <button mat-button color="primary" (click)="catalogoXityPayCta()">Seleccionar Aliado</button>
+    <button *ngIf="xpayctanro" mat-button color="primary" (click)="agregaPersonaXpayCuenta()">Agregar Persona</button>
+    <button *ngIf="xpayctanro" mat-button color="primary" (click)="verUsuariosEnCuenta()">Usuarios en cuenta</button>
+</div>
+
+<div class="container pt-2">
+    <div class="row">
+        <div class="col-md-8 col-12 offset-md-2">
+            <div class="info-text">
+                Las personas continuación son posibles receptores de pago XityPay, haga click sobre la imagen o el nombre para cambiar el avatar o participación.
+           
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-2 pb-3" #top>
+    <div class="d-flex align-items-center justify-content-center" *ngIf="aliadoNombre" >
+        <h3 class="text-center pl-3">
+            {{aliadoNombre}} <span class="text-danger" *ngIf="xpcta.activo === 'N'">(Cuenta No Activa)</span>
+        </h3>
+        <h3 class="pl-3 d-none">
+            url_webhook: {{xpcta.url_webhook}}
+        </h3>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center" *ngIf="aliadoNombre" >
+        <mat-form-field class="w-50 w-md-25 pr-md-1" appearance="fill" [formGroup]="form" >
+            <mat-label>Nro Doc.</mat-label>
+            <input placeholder="Ej. 12345678" matInput formControlName="codnipFiltro" (keyup.enter)="buscarPersonasXPayCuenta(xpayctanro)" >
+            <button type="button" class="btn" mat-icon-button matSuffix (click)="buscarPersonasXPayCuenta(xpayctanro)">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-form-field class="w-50 w-md-25" appearance="fill" [formGroup]="form" >
+            <mat-label>Nombre</mat-label>
+            <input placeholder="Ej. Juan" matInput formControlName="nombre" (keyup.enter)="buscarPersonasXPayCuenta(xpayctanro)" >
+            <button type="button" class="btn" mat-icon-button matSuffix (click)="buscarPersonasXPayCuenta(xpayctanro)">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+<!-- 
+    <mat-accordion *ngIf="dataSource.results" class="d-none">
+
+        <mat-expansion-panel *ngFor="let xpayPer of dataSource.results;index as i"  >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img [src]="xpayPer.persona.url_avatar1" class="p-1" alt="" style="width: 50px;">
+                    {{xpayPer.persona.nombrecorto}}
+                </mat-panel-title>
+                <mat-panel-description class="justify-content-end">
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-12">
+                    <mat-form-field class="w-100">
+                        <mat-label>URL Avatar</mat-label>
+                        <input matInput [value]="xpayPer.persona.url_avatar1">
+                        <button mat-button color="primary" (click)="updateAvatar(xpayPer)">Actualizar Avatar</button>
+                    </mat-form-field>
+                </div>
+                <div class="col-12">
+                    <div class="botonera-seleccion-usuario">
+                        <button mat-button  class="icon-fix"  color="primary"><mat-icon>preview</mat-icon> Ver QR</button>
+                        <button *ngIf="xpayctanro" class="icon-fix" mat-button color="primary"><mat-icon >delete</mat-icon> Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion> -->
+
+
+
+    <div #tableContainer class="container table-container mb-5">
+    <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8 table-fixed"  *ngIf="dataSource.results" >
+
+        <ng-container matColumnDef="avatar" >
+            <th mat-header-cell *matHeaderCellDef class="d-none d-md-table-cell"></th>
+            <td mat-cell *matCellDef="let element" class="d-none d-md-table-cell"  style="width: 50px;">
+                <img class="square" (click)="updateAvatar(element)" [src]="element.url_avatar1" alt="" style="width: 50px;">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef sty1le="width:85%">Nombre</th>
+            <td  mat-cell *matCellDef="let element" (click)="updateAvatar(element)">{{element.cta_titular_nombre}}
+                <span title="Correo registrado" *ngIf="element.email_not" class=" mx-1"><mat-icon class="dark-grey-text" >mark_email_read</mat-icon></span>
+                <span title="Telegram ChatID registrado" class="d-inline-block mx-1 active-tg-icon" *ngIf="element.telegram_chat_id">
+                    <span [innerHTML]="tgIcon"></span>
+                </span>
+                <span title="Activo" *ngIf="element.activo==='S'"><mat-icon class="personaxp-active mx-1">check</mat-icon></span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="participacion">
+            <th class="text-center d-none d-md-table-cell" mat-header-cell *matHeaderCellDef>Participación</th>
+            <td class="text-center d-none d-md-table-cell" mat-cell *matCellDef="let element">{{element.partc_tipo}} - {{element.participacion}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="transacciones">
+            <th mat-header-cell *matHeaderCellDef class="text-center d-none d-md-table-cell">Movimientos</th>
+            <td mat-cell *matCellDef="let element" class="text-center d-none d-md-table-cell">
+                <mat-icon title="Ver en navegador" (click)="viewTransactionsCard(element)">visibility</mat-icon>&nbsp;
+                <mat-icon title="Descargar Tarjeta" (click)="dlTransactionsCard(element)">download_2</mat-icon>&nbsp;
+                <mat-icon title="Abrir link" (click)="openTransacciones(element)">receipt_long</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="linkpago">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Link MD</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <mat-icon title="Ver en navegador" (click)="showUrl(element)">visibility</mat-icon>&nbsp;
+                <mat-icon title="Descargar Tarjeta" (click)="showUrlDl(element)">download_2</mat-icon>&nbsp;
+                <mat-icon title="Abrir link" (click)="openUrl(element)">qr_code</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="linkpago2">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Link MA</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <mat-icon title="Ver en navegador" (click)="showUrlPago(element)">visibility</mat-icon>&nbsp;
+                <mat-icon title="Descargar Tarjeta" (click)="showUrlPagoDl(element)">download_2</mat-icon>&nbsp;
+                <mat-icon title="Abrir link" (click)="openUrlPago(element)">qr_code</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef  class=""></th>
+            <td mat-cell *matCellDef="let element" class="text-center" [class.d-none]="element.nropersona === aliadoNroPersona" (click)="eliminaPersonaXpayCta(element)"><mat-icon>delete</mat-icon></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<div class="col-12">
+    <div class="botonera-seleccion-usuario">
+        <button type="button" mat-button color="primary" (click)="refreshList()">Refrescar lista</button>
+    </div>
+    <div class="info-text pl-md-4">
+        <div>
+            <span><mat-icon class="personaxp-active">check</mat-icon></span>: Personas ACTIVAS para recibir el pago
+        </div>
+        <div>
+            <mat-icon class="dark-grey-text" >mark_email_read</mat-icon>: Poseen correo registrado
+        </div>
+        <div>
+            <div class=" d-inline-block active-tg-icon"><span [innerHTML]="tgIcon"></span></div>: Tienen la notificación de telegram activa <mat-icon class="dark-grey-text" ></mat-icon>
+        </div>
+    </div>
+
+</div>
+<div class="col-12">
+    <mat-paginator [length]="dataSource.total_registros" [pageSize]="dataSource.registros_x_pagina" 
+        [nextPageLabel]="'Siguiente'"
+        [pageSizeOptions]="[15, 25, 50, 100]"
+        (page)="onPageChange($event)"
+        *ngIf="dataSource.results">
+    </mat-paginator>
+</div>
+</div>
+
+<div class="spinner-container" *ngIf="showSpinner">
+    <mat-spinner color="warn"></mat-spinner>
+</div>
