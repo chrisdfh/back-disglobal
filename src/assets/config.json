@@ -12,7 +12,7 @@
       "por_defecto": true
     },
     "app_name":"BackOffice",
-    "app_compile_date": 251119,
+    "app_compile_date": 260129,
 
     "apiUrl": "https://test-api.xitypay.com",
     "apiPersona": "https://test-api.xitypay.com",

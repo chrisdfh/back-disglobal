@@ -204,8 +204,8 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
         this.sendMail(
             user.email_publico,
             'Acceso al Sistema: Credenciales y Primeros Pasos',
-            `Estimado(a) Cliente,<br><br>Nos complace informarle que el equipo de Operaciones ha <b>finalizado exitosamente la revisión y validación</b> de la consistencia de sus datos.<br>Su afiliación al sistema ha sido completada. A continuación, encontrará sus <b>credenciales iniciales de acceso:</b><br><b>Para ingresar al sistema:</b><br><b>Usuario: ${user.alias}<br>Clave: ${this.codnip}</b><br><br> Una vez que haya ingresado los datos de usuario y la clave inicial, el sistema le solicitará inmediatamente que <b>establezca una nueva contraseña personal.</b><br><br>Esta contraseña debe cumplir con los siguientes requisitos:<br><ul><li><b>Seguridad:</b> Debe ser suficientemente robusta para proteger su cuenta.</li><li><b>Memorabilidad:</b> Debe ser fácil de recordar para usted.</li></ul><b>Recomendaciones de Contraseña:</b><ul><li>Debe contener un mínimo de 8 caracteres.</li><li>Se recomienda combinar letras mayúsculas, minúsculas, números y símbolos.</li><li>Evite usar información personal obvia (como fechas de nacimiento o nombres).</li></ul>`
-          )
+            `<p>Estimado(a) Cliente,</p><p>Su afiliación al sistema ha sido completada con éxito y su cuenta ya se encuentra activa.</p><p>A continuación, sus credenciales iniciales:</p><p>Usuario: ${user.alias}<br />Clave Temporal: ${this.codnip}</p><p>Por motivos de seguridad, el sistema le solicitará establecer una nueva contraseña personal de inmediato. Le recomendamos una combinación robusta de caracteres para proteger su cuenta.</p><p>Bienvenido a la red de cobros inmediatos de Banco Plaza.</p><p>Atentamente,<br>Equipo de Soporte Banco Plaza</p>`
+         )
         this.showSpinner = false
       },
       error:(err:HttpErrorResponse)=>{
@@ -239,7 +239,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
             result=>{
               console.log(result)
               this.buscarPersonasXPayCuenta(user.xpayctanro)
-              this.sendMail(user.email_not,'Activación del punto de venta no se procesó','El punto de venta no se activó en el sistema de XityPay<br><br>Equipo Xitypay')
+              this.sendMail(user.email_not,'Activación del punto de venta no se procesó','<p>Estimado(a) Cliente,</p><p>Hubo una inconsistencia de datos y por ende el punto de venta no se activó en el sistema de Plaza Tap</p><p>Por favor póngase en contacto con el equipo de Soporte.</p><p>Atentamente,<br />Equipo de Soporte Banco Plaza</p>')
               this.showSpinner = false
             },
             error=>{
@@ -404,12 +404,17 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
     if (!(destinoEmail || asuntoEmail || cuerpoEmail)){
       return;
     }
-
-    const mail:SendMailPayload = {
-      remitente: 'Registro POS <enlaces@xitypay.com>',
-      destinatarios: [destinoEmail],
-      subject: asuntoEmail,
-      html_code: cuerpoEmail
+    let mail:SendMailPayload
+    if (this.xpcta.email_remitente_not){
+      mail = {
+        remitente: this.xpcta.email_remitente_not,
+        destinatarios: [destinoEmail],
+        subject: asuntoEmail,
+        html_code: cuerpoEmail
+      }
+    } else {
+      mail = new SendMailPayload()
+      return
     }
 
     this.service.sendMail(mail).subscribe({
