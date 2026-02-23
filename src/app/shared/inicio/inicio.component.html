@@ -27,7 +27,7 @@
                         <div [routerLink]="['/xitypay']">
                             <mat-icon class="img-boton-principal">payments</mat-icon>
                         </div>
-                        <span [routerLink]="['/xitypay']">XityPay</span>
+                        <span [routerLink]="['/xitypay']">Gestión de Cuentas</span>
                         <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/xitypay')"><mat-icon>open_in_new</mat-icon></span>
                     </button>
                 </div>
@@ -46,7 +46,7 @@
                         <div>
                             <mat-icon class="img-boton-principal">receipt_long</mat-icon>
                         </div>
-                        Transacciones
+                        Reporte de Transacciones
                     </button>
                 </div>
 
@@ -61,7 +61,7 @@
                         <div [routerLink]="['/activar-pec']">
                             <mat-icon class="img-boton-principal">fact_check</mat-icon>
                         </div>
-                        <span [routerLink]="['/activar-pec']">Registros POS</span>
+                        <span [routerLink]="['/activar-pec']">Activación / Consulta POS</span>
                         <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/activar-pec')"><mat-icon>open_in_new</mat-icon></span>
                     </button>
                 </div>
@@ -78,7 +78,7 @@
             </div>
             <hr />
             <div class="row">
-                <div class="col-6 col-md-2 pb-3">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/users']">
                         <div>
                             <mat-icon class="img-boton-principal">password</mat-icon>
@@ -86,7 +86,7 @@
                         Gestión de Usuarios
                     </button>
                 </div>
-                <div class="col-6 col-md-2 pb-3">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/user-xitypay']">
                         <div>
                             <mat-icon class="img-boton-principal">admin_panel_settings</mat-icon>

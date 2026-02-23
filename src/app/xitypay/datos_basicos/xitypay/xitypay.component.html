@@ -1,5 +1,5 @@
 <h2 #top class="mt-3">
-    Cuenta XityPay <span *ngIf="this.modo !== ''" >- {{this.modo}}</span>
+    Gestión de Cuenta <span *ngIf="this.modo !== ''" >- {{this.modo}}</span>
 </h2>
 <app-crud-bar (accion)="getAction($event)" [crud]="crud"></app-crud-bar>
 <div #main class="container">
@@ -684,7 +684,7 @@
                             Avatar
                         </mat-label>
                         <input matInput type="text" formControlName="url_avatar1" placeholder="https://pagina.com/image/mi-imagen.jpg" (keyup)="updateAvatar()" readonly>
-                        <mat-hint *ngIf="form.value.nroaliado">Para cambiar el AVATAR, modifíquelo en la página del aliado <span class="btn-link cursor-pointer" [routerLink]="'/aliado/'+form.value.nroaliado">AQUI</span></mat-hint>
+                        <!-- <mat-hint *ngIf="form.value.nroaliado">Para cambiar el AVATAR, modifíquelo en la página del aliado <span class="btn-link cursor-pointer" [routerLink]="'/aliado/'+form.value.nroaliado">AQUI</span></mat-hint> -->
                     </mat-form-field>
                 </div>
             </div>
@@ -752,7 +752,7 @@
 
         <div class="col-12 mt-3">
             <h6>
-                Mensajes para correos de notificación XityPay
+                Mensajes para correos de notificación Plaza Tap
             </h6>
         </div>
         <div class="col-12 p-0">
