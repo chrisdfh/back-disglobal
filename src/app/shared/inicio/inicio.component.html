@@ -18,11 +18,7 @@
                         Persona
                     </button>
                 </div>
-            </div>
-
-            <hr />
-            <div class="row">
-                <div class="col-6 col-md-2 pb-3">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix">
                         <div [routerLink]="['/xitypay']">
                             <mat-icon class="img-boton-principal">payments</mat-icon>
@@ -32,13 +28,22 @@
                     </button>
                 </div>
                 
-                <div class="col-6 col-md-2 pb-3" *ngIf="modoUsuario==='S'">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false || modoUsuario==='S'">
                     <button type="button" class="btn border m-2 icon-fix">
                         <div [routerLink]="['/informacion-bancaria']">
                             <mat-icon class="img-boton-principal">assured_workload</mat-icon>
                         </div>
                         <span [routerLink]="['/informacion-bancaria']">Información Bancaria</span>
                         <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/informacion-bancaria')"><mat-icon>open_in_new</mat-icon></span>
+                    </button>
+                </div>
+                <div class="col-6 col-md-2 pb-3">
+                    <button type="button" class="btn border m-2 icon-fix">
+                        <div [routerLink]="['/activar-pec']">
+                            <mat-icon class="img-boton-principal">fact_check</mat-icon>
+                        </div>
+                        <span [routerLink]="['/activar-pec']">Activación / Consulta POS</span>
+                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/activar-pec')"><mat-icon>open_in_new</mat-icon></span>
                     </button>
                 </div>
                 <div class="col-6 col-md-2 pb-3">
@@ -50,21 +55,6 @@
                     </button>
                 </div>
 
-            </div>
-
-            <!-- DISGLOBAL -->
-
-            <hr />
-            <div class="row">
-                <div class="col-6 col-md-2 pb-3">
-                    <button type="button" class="btn border m-2 icon-fix">
-                        <div [routerLink]="['/activar-pec']">
-                            <mat-icon class="img-boton-principal">fact_check</mat-icon>
-                        </div>
-                        <span [routerLink]="['/activar-pec']">Activación / Consulta POS</span>
-                        <span class="d-none" title="Abrir en pestaña nueva" (click)="newTab('/activar-pec')"><mat-icon>open_in_new</mat-icon></span>
-                    </button>
-                </div>
                 <div class="col-6 col-md-2 pb-3">
                     <button type="button" class="btn border m-2 icon-fix">
                         <div [routerLink]="['/cambiar-id']">
@@ -75,9 +65,6 @@
                     </button>
                 </div>
 
-            </div>
-            <hr />
-            <div class="row">
                 <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/users']">
                         <div>
@@ -102,7 +89,7 @@
                         Reinicio de Contraseña
                     </button>
                 </div>
-                <div class="col-6 col-md-2 pb-3">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/email-change']">
                         <div>
                             <mat-icon class="img-boton-principal">mark_email_read</mat-icon>
@@ -110,7 +97,7 @@
                         Cambio de Correo
                     </button>
                 </div>
-                <div class="col-6 col-md-2 pb-3">
+                <div class="col-6 col-md-2 pb-3" *ngIf="false">
                     <button type="button" class="btn border m-2 icon-fix" [routerLink]="['/username-change']">
                         <div>
                             <mat-icon class="img-boton-principal">contact_page</mat-icon>

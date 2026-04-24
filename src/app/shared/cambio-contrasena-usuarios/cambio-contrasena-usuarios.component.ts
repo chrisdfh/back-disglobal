@@ -4,11 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordView, LibEnvService, PersonasService, RequestUpdatePassword, UserView2, UserView2Persona, UsuariosService } from 'personas';
 import { SnackbarService } from 'src/app/layout/snackbar.service';
 import { CatalogoAfiliadoComponent } from '../borrame/catalogo-afiliado/catalogo-afiliado.component';
-import { AfiliadoView, AliadoWrap } from 'aliados';
+import { AfiliadoView, AliadoWrap, usuarioXityPay } from 'aliados';
 import { CatalogoAliadoComponent } from '../borrame/catalogo-aliado/catalogo-aliado.component';
 import { CatalogoTaskerComponent } from '../borrame/catalogo-tasker/catalogo-tasker.component';
 import { CatalogoUsuariosComponent } from '../borrame/catalogo-usuarios/catalogo-usuarios.component';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ServicioCompartidoComponent } from 'src/app/layout/servicio-compartido/servicio-compartido.component';
+import { ServicioLocalstorage } from 'src/app/layout/servicio-localstorage.service';
 
 @Component({
   selector: 'app-cambio-contrasena-usuarios',
@@ -22,6 +25,12 @@ export class CambioContrasenaUsuariosComponent implements OnInit {
   passwordChangedMessage:string
   form:FormGroup
   ciaopr:string 
+
+  xpctanro=''
+  modoCliente = false
+  subscription:Subscription
+  private servicioCompartido:ServicioCompartidoComponent = new ServicioCompartidoComponent() 
+  private localStorageService:ServicioLocalstorage = new ServicioLocalstorage()
 
   constructor(
     public dialog:MatDialog,
@@ -63,6 +72,18 @@ export class CambioContrasenaUsuariosComponent implements OnInit {
       }
     })
 
+
+
+    this.subscription = this.servicioCompartido.getJwtData().subscribe((e)=>console.log("EN INICIO",e))
+    
+    const data = this.localStorageService.getItem('1uswK2yh')
+    if (data) {
+      const parsedData:miniXPCuenta = JSON.parse(data)
+      if (parsedData.xpayctanro){
+        this.modoCliente = true
+        this.xpctanro=parsedData.xpayctanro
+    }
+  }
 
 
   }
@@ -133,14 +154,20 @@ export class CambioContrasenaUsuariosComponent implements OnInit {
     this.form.reset()
     this.passwordChanged=false
     this.passwordChangedMessage=''
-    this.dialog.open(CatalogoUsuariosComponent,{data:this.dataDialogo("Búsqueda de Usuarios", undefined,undefined,undefined,25)}).afterClosed().subscribe(
-      (result:UserView2Persona)=>{
+
+    const dataCatalogo = {
+      ...this.dataDialogo("Búsqueda de Usuarios", '',undefined,undefined,25), 
+      xpctanro :this.xpctanro
+    }
+
+    this.dialog.open(CatalogoUsuariosComponent,{data:dataCatalogo}).afterClosed().subscribe(
+      (result:usuarioXityPay)=>{
         if (!result)return
         this.form.patchValue(
           {
-            username:result.alias,
-            email_publico:result.email_publico,
-            codnip:result.persona.codnip,
+            username:result.usuario.alias,
+            email_publico:result.usuario.email_publico,
+            codnip:result.usuario.codnip,
           }
         )
       }
@@ -157,7 +184,7 @@ export class CambioContrasenaUsuariosComponent implements OnInit {
     this.showSpinner=true
     const datosCambioCorreo:ChangePasswordView = this.form.getRawValue()
     datosCambioCorreo.ciaopr = '1'
-    this.service.resetPassword(this.ciaopr,datosCambioCorreo).subscribe(
+    this.service.resetPasswordSecured(this.ciaopr,datosCambioCorreo).subscribe(
       (result)=>{
         this.passwordChanged=true
         this.passwordChangedMessage = result.mensaje + ', en el próximo login deberá usar como contraseña: ' + this.form.get('codnip')?.value
@@ -175,4 +202,25 @@ export class CambioContrasenaUsuariosComponent implements OnInit {
     )
   }
 
+}
+
+
+class miniXPCuenta{
+  xpayctanro: string;
+  email: string;
+  cuenta_transitoria: string;
+  federado_estricto: string;
+  nombre: string;
+  alias: string;
+  email_publico: string;
+  url_avatar1: string;
+  nombrepersjuridica: string;
+  siglaspersjuridica: string;
+  nombrecompleto: string;
+  nombrecorto: string;
+  usr_x_cta: Usrxcta;
+}
+
+interface Usrxcta {
+  rol_1: string;
 }

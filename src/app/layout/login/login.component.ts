@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
     if (this.form.status === 'VALID'){
       this.showSpinner=true
       
-      console.log(`el valor del cliente xp es ${this.form.get('cliente_xp')?.value}`)
+      // console.log(`el valor del cliente xp es ${this.form.get('cliente_xp')?.value}`)
       if (this.form.get('cliente_xp')?.value) {
         this.loginUserXp()
         return
@@ -186,7 +186,7 @@ export class LoginComponent implements OnInit {
     if (this.form.status === 'VALID'){
       this.showSpinner=true
 
-      console.log(`el valor del cliente xp es ${this.form.get('cliente_xp')?.value}`)
+      // console.log(`el valor del cliente xp es ${this.form.get('cliente_xp')?.value}`)
       if (this.form.get('cliente_xp')?.value) {
         this.loginUserXp()
         return
@@ -235,8 +235,8 @@ export class LoginComponent implements OnInit {
           next: (value:string) => {
           this.showSpinner=false
           this.cookieService.set('token', value)
-          console.log('la data del token es ')
-          console.log(value)
+          // console.log('la data del token es ')
+          // console.log(value)
           this.servicioCompartido.jwtData.next(value)
           this.router.navigate(['/']);
         },

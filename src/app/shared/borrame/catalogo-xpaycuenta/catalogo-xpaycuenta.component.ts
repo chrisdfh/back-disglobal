@@ -16,10 +16,10 @@ import { ServicioLocalstorage } from 'src/app/layout/servicio-localstorage.servi
 export class CatalogoXpaycuentaComponent  extends CatalogoComponent<XpayCuenta> implements OnInit,AfterViewInit{
 
   private service: XitypayService
-  modoCliente = false
   cliente:miniXPCuenta|null
-  subscription:Subscription
+  modoCliente = false
   titulo:string
+  subscription:Subscription
   private servicioCompartido:ServicioCompartidoComponent = new ServicioCompartidoComponent() 
   private localStorageService:ServicioLocalstorage = new ServicioLocalstorage()
 

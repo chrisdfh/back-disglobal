@@ -141,7 +141,7 @@ export class AdministrarUsuariosComponent  extends CrudImpl implements OnInit  {
     // this.showSpinner = false
     // return
 
-    this.service.createUsuario(newUser.ciaopr,newUser).subscribe({
+    this.service.createUsuarioSecured(newUser.ciaopr,newUser).subscribe({
       next: (result: UserView2) => {
         if (result) {
 

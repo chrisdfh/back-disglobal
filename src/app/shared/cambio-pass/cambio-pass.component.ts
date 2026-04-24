@@ -7,6 +7,7 @@ import { SnackbarService } from 'src/app/layout/snackbar.service';
 import { CatalogoUsuariosComponent } from '../borrame/catalogo-usuarios/catalogo-usuarios.component';
 import { Md5 } from 'ts-md5';
 import { microMensaje } from 'aliados';
+import { ConnectableObservable } from 'rxjs';
 
 @Component({
   selector: 'app-cambio-pass',
@@ -18,7 +19,7 @@ export class CambioPassComponent  implements OnInit{
   
   ngOnInit(): void {
     this.ciaopr = this.libEnvService.getConfig().ciaopr.ciaopr
-    this.codnip = this.data.usuario.codnip
+    this.codnip = this.data.sub.codnip
   }
 
   form:FormGroup
@@ -39,8 +40,8 @@ export class CambioPassComponent  implements OnInit{
     public libEnvService: LibEnvService,
   ){
     this.form = new FormGroup({
-      username: new FormControl(data.usuario.alias,Validators.required),
-      password: new FormControl(Md5.hashStr(data.usuario.codnip),Validators.required),
+      username: new FormControl(data.sub.alias,Validators.required),
+      password: new FormControl(Md5.hashStr(data.sub.codnip),Validators.required),
       new_password: new FormControl('',Validators.required),
       renew_password: new FormControl('',Validators.required),
     })
@@ -65,7 +66,7 @@ export class CambioPassComponent  implements OnInit{
     this.dialog.open(CatalogoUsuariosComponent,{data:this.dataDialogo("Búsqueda de Usuarios", undefined,undefined,undefined,25)}).afterClosed().subscribe(
       (result:UserView2Persona)=>{
         if (!result)return
-        console.log(result)
+        // console.log(result)
         this.codnip=result.persona.codnip
         this.form.patchValue(
           {
@@ -112,7 +113,7 @@ export class CambioPassComponent  implements OnInit{
 
     this.service.changePassword(this.ciaopr,newPassword).subscribe({
       next: (result:microMensaje) => {
-        console.log(result)
+        // console.log(result)
         if (result) {
           this.showSpinner = false
           this.passwordChanged = true
@@ -133,7 +134,7 @@ export class CambioPassComponent  implements OnInit{
         this.showSpinner = false
       }
     })
-    console.log(this.form.getRawValue())
+    // console.log(this.form.getRawValue())
   }
 
 
@@ -141,7 +142,7 @@ export class CambioPassComponent  implements OnInit{
 
 
 class XPLoginResponseDecoded{
-  usuario:MiniUsuario
+  sub:MiniUsuario
 }
 
 class MiniUsuario{

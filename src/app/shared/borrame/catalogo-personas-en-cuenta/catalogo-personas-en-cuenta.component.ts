@@ -62,7 +62,7 @@ export class CatalogoPersonasEnCuentaComponent  extends CatalogoComponent<person
       const filtro:PersonaEnCuentaFiltro = this.form.getRawValue()
       filtro.nropersona
 
-      this.service.getPersonasXpayCuentaConFiltro(filtro, this.libEnvService.getConfig().ciaopr.ciaopr, this.xpayctanro, this.data.cant_registros||10, 1).subscribe(
+      this.service.getPersonasXpayCuentaConFiltroSecured(filtro, this.libEnvService.getConfig().ciaopr.ciaopr, this.xpayctanro, this.data.cant_registros||10, 1).subscribe(
         {
           next: (value:List<personaXpayCuenta>) => {
             console.log(value)
@@ -89,7 +89,7 @@ export class CatalogoPersonasEnCuentaComponent  extends CatalogoComponent<person
       if (event.pageIndex == this.dataSource.pagina -1) {
         console.log('')
       } else {
-          this.service.getPersonasXpayCuentaConFiltro(filtro, this.libEnvService.getConfig().ciaopr.ciaopr, this.xpayctanro, this.data.cant_registros||10, (++event.pageIndex)).subscribe(
+          this.service.getPersonasXpayCuentaConFiltroSecured(filtro, this.libEnvService.getConfig().ciaopr.ciaopr, this.xpayctanro, this.data.cant_registros||10, (++event.pageIndex)).subscribe(
             {
               next: (value:List<personaXpayCuenta>) => {
                 this.dataSource = value

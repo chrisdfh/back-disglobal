@@ -19,10 +19,10 @@
     "-xitypay_base_url":"https://www.xitypay.com",
     "-apiSecuredUrl": "https://micropersona.xityclub.com",
 
-    "apiUrl": "https://tapi.xitypay.com",
-    "apiPersona": "https://tapi.xitypay.com",
+    "apiUrl": "https://papi.xitypay.com",
+    "apiPersona": "https://papi.xitypay.com",
     "xitypay_base_url":"https://www.xitypay.com",
-    "apiSecuredUrl": "https://tapi.xitypay.com",
+    "apiSecuredUrl": "https://papi.xitypay.com",
 
     "favico": "./opg.png",
     "logo_1": "https://test-mmedia.xitypay.com/xityclub/2288/plaza-tap.png",

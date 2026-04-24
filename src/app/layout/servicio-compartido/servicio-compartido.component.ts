@@ -13,15 +13,32 @@ import { Subject } from 'rxjs';
 export class ServicioCompartidoComponent {
   jwtData = new Subject()
   xpayCuenta = new Subject()
+  refreshToken = new Subject()
+
 
   getJwtData(){
       return this.jwtData.asObservable()
+  }
+
+  getRefreshToken(){
+    return this.refreshToken.asObservable()
   }
 
   getXpayCuenta(){
     return this.xpayCuenta.asObservable()
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 class miniXPCuenta{
   xpayctanro: string;

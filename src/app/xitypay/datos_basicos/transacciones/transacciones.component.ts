@@ -2,10 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { personaXpayCuenta, Transaccion, TransaccionFiltro, XitypayService, XpayCuenta } from 'aliados';
+import { consultaTransaccionesProtegidas, personaXpayCuenta, Transaccion, TransaccionFiltro, XitypayService, XpayCuenta } from 'aliados';
 import * as moment from 'moment';
 import { LibEnvService, List } from 'personas';
 import { TablasApoyo } from 'personas/lib/dto/config';
+import { Subscription } from 'rxjs';
+import { ServicioCompartidoComponent } from 'src/app/layout/servicio-compartido/servicio-compartido.component';
+import { ServicioLocalstorage } from 'src/app/layout/servicio-localstorage.service';
 import { SnackbarService } from 'src/app/layout/snackbar.service';
 import { CatalogoPersonasEnCuentaComponent } from 'src/app/shared/borrame/catalogo-personas-en-cuenta/catalogo-personas-en-cuenta.component';
 import { CatalogoXpaycuentaComponent } from 'src/app/shared/borrame/catalogo-xpaycuenta/catalogo-xpaycuenta.component';
@@ -24,6 +27,17 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
   dataSource =  new List<Transaccion>()
   displayedColumns:string[] =['info','monto']
   @ViewChild('botonera') botonera:ElementRef
+  @ViewChild('downloadCsv') downloadCsv:ElementRef
+
+
+
+  parsedData:miniXPCuenta
+  xpctanro:string
+  modoCliente:boolean
+  titulo:string
+  subscription:Subscription
+  private servicioCompartido:ServicioCompartidoComponent = new ServicioCompartidoComponent() 
+  private localStorageService:ServicioLocalstorage = new ServicioLocalstorage()
 
 
   ngOnInit(): void {
@@ -31,7 +45,30 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
     this.tablasApoyo = this.libEnvService.getConfig().tablasApoyo
     this.showSpinner = false
     this.modificarAction()
-  }
+
+
+
+    this.subscription = this.servicioCompartido.getJwtData().subscribe((e)=>console.log("EN INICIO",e))
+    
+    const data = this.localStorageService.getItem('1uswK2yh')
+    if (data) {
+      // const parsedData:miniXPCuenta = JSON.parse(data)
+      this.parsedData = JSON.parse(data)
+      if (this.parsedData.xpayctanro){
+        this.modoCliente = true
+        this.titulo = this.parsedData.xpayctanro
+        this.xpctanro=this.parsedData.xpayctanro
+        this.setName()
+        
+
+
+        this.form.patchValue({xpayctanro:this.xpctanro})
+
+        const filtro:TransaccionFiltro = {xpayctanro:this.xpctanro}
+        this.buscarTransacciones(filtro,1,15)
+    }
+
+  }}
 
 
   constructor(
@@ -50,6 +87,13 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
         personaEnCuentaNombre: new FormControl('')
       })
     }
+
+  setName():void{
+    console.log(this.parsedData)
+    setTimeout(() => {
+      this.aliadoNombre = this.parsedData.nombrecorto.toUpperCase()
+    }, 0);
+  }
 
 
   catalogoXityPayCta(){
@@ -80,7 +124,7 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
     // this.dataSource = new List<Transaccion>()
     this.showSpinner = true
 
-    this.service.listTransacciones(this.libEnvService.getConfig().ciaopr.ciaopr,filtro, cantRegistros, pagina).subscribe({
+    this.service.listTransaccionesSecured(this.libEnvService.getConfig().ciaopr.ciaopr,filtro, cantRegistros, pagina).subscribe({
 
       next:(transacciones)=>{
           this.dataSource = transacciones
@@ -142,6 +186,45 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
     this.buscarTransacciones(filtro,1,15)
   }
 
+  
+  descargarTransacciones():void{
+
+    const preFiltro:TransaccionFiltro = this.form.getRawValue()
+    const filtro:consultaTransaccionesProtegidas={
+      fecha_desde: moment(preFiltro.fecha_desde).format('YYYY/MM/DD'),
+      fecha_hasta: moment(preFiltro.fecha_hasta).add(1,'d').format('YYYY/MM/DD'),
+      nropersona_en_cuenta: preFiltro.nropersona,
+    }
+
+    this.downloadCsv.nativeElement.setAttribute('disabled','true')
+    this.service.downloadTransacciones(this.libEnvService.getConfig().ciaopr.ciaopr, this.form.get('xpayctanro')?.value, filtro).subscribe(
+      {
+      next:(response)=>{
+        const blob = new Blob([response], { type: 'text/csv' });
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `Transacciones-${this.aliadoNombre.toUpperCase()}-${moment(preFiltro.fecha_desde).format('YYYYMMDD')}-${moment(preFiltro.fecha_hasta).format('YYYYMMDD')}.csv`;
+        link.type = 'text/csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(blobUrl);
+    },error:(err)=>{
+        console.log(err)
+        let msg = 'Error al obtener registros'
+        if (err.error.mensaje){
+          msg = err.error.mensaje
+        }
+        this.snack.msgSnackBar(msg,'OK',undefined,'error')
+        this.downloadCsv.nativeElement.removeAttribute('disabled')
+    },complete:()=>{
+      this.downloadCsv.nativeElement.removeAttribute('disabled')
+    }
+    }
+  )
+  }
+
 
   status(status:string):string{
     if (status === 'ACCP') return 'Aprobado'
@@ -191,4 +274,25 @@ export class TransaccionesComponent extends CrudImpl implements OnInit{
     return `Bs. ${this.formatNumber(data.monto_ves)}`;
   }
 
+}
+
+
+class miniXPCuenta{
+  xpayctanro: string;
+  email: string;
+  cuenta_transitoria: string;
+  federado_estricto: string;
+  nombre: string;
+  alias: string;
+  email_publico: string;
+  url_avatar1: string;
+  nombrepersjuridica: string;
+  siglaspersjuridica: string;
+  nombrecompleto: string;
+  nombrecorto: string;
+  usr_x_cta: Usrxcta;
+}
+
+interface Usrxcta {
+  rol_1: string;
 }

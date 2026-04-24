@@ -242,7 +242,7 @@ export class CreaUsuarioXpComponent extends CrudImpl implements OnInit {
   creaUsuario(user:UserView2):void{
     console.log(user)
     this.showSpinner = true
-      this.serviceUsuario.createUsuario(this.libEnvService.getConfig().ciaopr.ciaopr,user).subscribe({
+      this.serviceUsuario.createUsuarioSecured(this.libEnvService.getConfig().ciaopr.ciaopr,user).subscribe({
         next:(usuario)=>{
           console.log('usuario creado')
           const assignedUser = new XpayUserXCuenta()
@@ -275,7 +275,7 @@ export class CreaUsuarioXpComponent extends CrudImpl implements OnInit {
       // console.log(assignedUser)
       // console.log(user)
       this.showSpinner = true
-      this.serviceXityPay.asignaUsuarioXpayCuenta(this.libEnvService.getConfig().ciaopr.ciaopr,assignedUser).subscribe({
+      this.serviceXityPay.asignaUsuarioXpayCuentaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,assignedUser).subscribe({
         next:()=>{
           console.log('usuario asignado')
           const personaAsignada = new PersonaXityPay()
@@ -340,7 +340,7 @@ export class CreaUsuarioXpComponent extends CrudImpl implements OnInit {
       this.serviceXityPay.createPersonaEnCuentaQr(personaXP.ciaopr,qrData).subscribe(
         result=>{
           const personaConQr = {...personaXP,...result}
-          this.serviceXityPay.asignaPersonaXpayCuenta(this.libEnvService.getConfig().ciaopr.ciaopr,personaConQr).subscribe(
+          this.serviceXityPay.asignaPersonaXpayCuentaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,personaConQr).subscribe(
             result=>{
               console.log('persona asignada')
               if (result){

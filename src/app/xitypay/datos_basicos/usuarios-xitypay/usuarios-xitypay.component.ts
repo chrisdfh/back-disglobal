@@ -103,7 +103,7 @@ export class UsuariosXitypayComponent  extends CrudImpl implements OnInit{
   buscarUsuariosXPayCuenta(xpaycta:string|undefined){
     this.dataSource = new List<usuarioXityPay>()
     if (xpaycta){
-      this.service.listClubUsuariosAsociadosXpayCuenta(this.ciaopr,xpaycta,100,1).subscribe((
+      this.service.listClubUsuariosAsociadosXpayCuentaSecured(this.ciaopr,xpaycta,100,1).subscribe((
         result=>{
           if (result.results.length > 0){
             // this.aliadoNombre = result.results[0].cuenta.nombrecorto
@@ -166,7 +166,7 @@ export class UsuariosXitypayComponent  extends CrudImpl implements OnInit{
 
           this.showSpinner = true
 
-          this.service.asignaUsuarioXpayCuenta(this.ciaopr,user).subscribe(
+          this.service.asignaUsuarioXpayCuentaSecured(this.ciaopr,user).subscribe(
             resultUser=>{
               if (resultUser){
                 this.buscarUsuariosXPayCuenta(this.xpayctanro)
@@ -260,7 +260,7 @@ export class UsuariosXitypayComponent  extends CrudImpl implements OnInit{
   addPersonaXpayCta(persona:PersonaXityPay):void{
 
     this.showSpinner = true
-    this.service.asignaPersonaXpayCuenta(this.ciaopr, persona).subscribe(
+    this.service.asignaPersonaXpayCuentaSecured(this.ciaopr, persona).subscribe(
       ()=>{
         this.showSpinner = false
         this.snack.msgSnackBar('Persona asignada correctamente','OK',undefined,'success')
@@ -280,7 +280,7 @@ export class UsuariosXitypayComponent  extends CrudImpl implements OnInit{
 
     this.showSpinner = true
 
-    this.service.asignaUsuarioXpayCuenta(this.ciaopr,updatedUser).subscribe(
+    this.service.asignaUsuarioXpayCuentaSecured(this.ciaopr,updatedUser).subscribe(
       resultUser=>{
         if (resultUser){
           this.buscarUsuariosXPayCuenta(this.xpayctanro)

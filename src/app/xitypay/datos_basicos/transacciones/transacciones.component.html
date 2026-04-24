@@ -6,14 +6,21 @@
     </div>
 </div>
 <div class="botonera-seleccion-usuario">
-    <button mat-button color="primary" (click)="catalogoXityPayCta()">Seleccionar Cuenta</button>
+    <!-- <button mat-button color="primary" (click)="catalogoXityPayCta()">Seleccionar Cuenta</button> -->
+    <button #downloadCsv *ngIf="this.form.value.fecha_desde !== '' && this.form.value.fecha_hasta !== '' && this.form.value.fecha_desde !== null && this.form.value.fecha_hasta !== null" mat-button color="primary" (click)="descargarTransacciones()">Descargar CSV</button>
+
 </div>
 
 <div class="container pt-2">
     <div class="row">
         <div class="col-md-8 col-12 offset-md-2">
             <div class="info-text">
-                Seleccione un aliado para ver sus transacciones
+                <div>
+                    Seleccione un aliado para ver sus transacciones
+                </div>
+                <div>
+                    Seleccione un RANGO de fechas para generar y descargar las transacciones
+                </div>
             </div>
         </div>
     </div>
@@ -23,7 +30,7 @@
 
 
     <h3 *ngIf="this.form.value.xpayctanro" class="text-center">
-        {{aliadoNombre}}
+        {{aliadoNombre.toUpperCase()}}
     </h3>
     <div class="row">
         <div class="col-12 col-md-6 d-flex justify-content-end align-items-center pr-1">
@@ -52,7 +59,7 @@
                     {{form.value.personaEnCuentaNombre}}
                 </h5>
                 <button *ngIf="form.value.personaEnCuentaNombre!==null" type="button" class="d-flex" mat-button color="primary" (click)="eliminaFiltros()"><mat-icon>filter_alt_off</mat-icon></button>
-                <button type="button" mat-button color="primary" (click)="buscarPersonaEnCuenta()">Persona En Cuenta</button>
+                <button type="button" mat-button color="primary" (click)="buscarPersonaEnCuenta()">Filtrar por Punto</button>
             </div>
 
         </div>

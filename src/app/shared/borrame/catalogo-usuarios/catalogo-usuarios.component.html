@@ -1,7 +1,7 @@
-<p>{{data.titulo}}</p>
+<p> ESTE ES {{data.titulo}}</p>
 
 <div [formGroup]="form">
-    <div class="container">
+    <div class="container d-none" >
         <div class="row px-2">
             <div class="col-6 col-md-3 p-1">
                 <mat-form-field class="w-100" appearance="fill">
@@ -40,19 +40,19 @@
         <table mat-table [dataSource]="dataSource.results" class="mat-elevation-z8"  *ngIf="dataSource.results" >
             <ng-container matColumnDef="tipnip">
                 <th mat-header-cell *matHeaderCellDef class="text-center">Tipo Doc</th>
-                <td mat-cell *matCellDef="let element" class="text-center">{{element.persona.tipnip}}</td>
+                <td mat-cell *matCellDef="let element" class="text-center">{{element.usuario.tipnip}}</td>
             </ng-container>
             <ng-container matColumnDef="codnip">
                 <th mat-header-cell *matHeaderCellDef class="text-center">Nro. Doc</th>
-                <td mat-cell *matCellDef="let element" class="text-center">{{element.persona.codnip}}</td>
+                <td mat-cell *matCellDef="let element" class="text-center">{{element.usuario.codnip}}</td>
             </ng-container>
             <ng-container matColumnDef="alias">
                 <th mat-header-cell *matHeaderCellDef>Alias</th>
-                <td mat-cell *matCellDef="let element">{{element.alias}}</td>
+                <td mat-cell *matCellDef="let element">{{element.usuario.alias}}</td>
             </ng-container>
             <ng-container matColumnDef="nombrecorto">
                 <th mat-header-cell *matHeaderCellDef>Nombre</th>
-                <td mat-cell *matCellDef="let element">{{element.persona.nombrecorto}}</td>
+                <td mat-cell *matCellDef="let element">{{element.usuario.nombrecorto}}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -18,7 +18,7 @@ export class InterceptorService implements HttpInterceptor {
  constructor(public router: Router,public cookieService: CookieService, private dialog: MatDialog) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+        
         const jwtToken = this.cookieService.get('token');
         if (jwtToken) {
             const jwt:JwtData = jwtDecode(jwtToken)
@@ -33,6 +33,7 @@ export class InterceptorService implements HttpInterceptor {
                 )
                 this.logout();
             } else {
+                // MUESTRO EN CONSOLA, LA FECHA DE EXPIRACIÓN
                 const expDate = new Date(jwt.exp*1000)
                 console.log(expDate)
             }
@@ -40,10 +41,14 @@ export class InterceptorService implements HttpInterceptor {
             // Si el token no ha expirado, agregarlo al request
             request = request.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${jwtToken}`
-                }
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+                withCredentials: false
             });
         } else {
+            request = request.clone({
+                withCredentials: false
+            });
             this.logout()
         }
         return next.handle(request)

@@ -94,6 +94,8 @@ export class PersonaComponent extends CrudImpl implements OnInit {
     this.setDefaults()
     // this.crud.btnIncluir.visible=false
     this.crud.btnEliminar.visible=false
+    this.crud.btnModificar.visible=false
+    this.crud.btnIncluir.visible=false
     // this.crud.btnModificar.visible=false
   }
 
@@ -169,7 +171,7 @@ export class PersonaComponent extends CrudImpl implements OnInit {
 
   buscaPersona(nropersona:number):void{
     
-    this.service.getPersonaViewXNropersona(this.libEnvService.getConfig().ciaopr.ciaopr,nropersona).subscribe(
+    this.service.getPersonaViewXNropersonaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,nropersona).subscribe(
       {
         next: (result:PersonaView) => {
           this.setPersona(result)

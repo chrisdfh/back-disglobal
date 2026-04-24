@@ -7,6 +7,9 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DomSanitizer } from '@angular/platform-browser';
 import { microMensaje, PersonaEnCuentaFiltro, PersonaXityPay, personaXpayCuenta, SendMailPayload, XitypayService, XpayCuenta, XpayUserXCuenta } from 'aliados';
 import { LibEnvService, List, PersonasService, UserView2, UsuariosService } from 'personas';
+import { Subscription } from 'rxjs';
+import { ServicioCompartidoComponent } from 'src/app/layout/servicio-compartido/servicio-compartido.component';
+import { ServicioLocalstorage } from 'src/app/layout/servicio-localstorage.service';
 import { SnackbarService } from 'src/app/layout/snackbar.service';
 import { ActivarPersonaEnCuentaPosComponent } from 'src/app/shared/activar-persona-en-cuenta-pos/activar-persona-en-cuenta-pos.component';
 import { CatalogoGenericoComponent } from 'src/app/shared/borrame/catalogo-generico/catalogo-generico.component';
@@ -29,6 +32,14 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
   aliadoNombre:string
   aliadoNroPersona:number
   codnip:string
+  parsedData:miniXPCuenta
+
+xpctanro:string
+modoCliente:boolean
+    titulo:string
+    subscription:Subscription
+    private servicioCompartido:ServicioCompartidoComponent = new ServicioCompartidoComponent() 
+    private localStorageService:ServicioLocalstorage = new ServicioLocalstorage()
 
   @ViewChild('top') top:ElementRef
   tgIcon=this.sanitizer.bypassSecurityTrustHtml(`<svg class="h-100 w-100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
@@ -66,9 +77,41 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
 
   ngOnInit(): void {
     this.ciaopr = this.libEnvService.getConfig().ciaopr.ciaopr
+
+
+    this.subscription = this.servicioCompartido.getJwtData().subscribe((e)=>console.log("EN INICIO",e))
+    
+    const data = this.localStorageService.getItem('1uswK2yh')
+    if (data) {
+      // const parsedData:miniXPCuenta = JSON.parse(data)
+      this.parsedData = JSON.parse(data)
+      if (this.parsedData.xpayctanro){
+        this.xpcta = new XpayCuenta()
+        // console.log(parsedData)
+        this.modoCliente = true
+        this.titulo = this.parsedData.xpayctanro
+        this.xpayctanro=this.parsedData.xpayctanro
+        // alert(this.xpayctanro)
+        // console.log(parsedData.nombrecorto)
+        // setTimeout(() => this.setName,0)
+        this.setName()
+        // console.log(this.aliadoNombre)
+        this.buscarPersonasXPayCuenta(this.xpayctanro)
+        this.xpcta.email_remitente_not = 'plazatap@bancoplaza.com'
+    }
+
+  }}
+
+  setName():void{
+    console.log(this.parsedData)
+    setTimeout(() => {
+      console.log(this.parsedData)
+      this.aliadoNombre = this.parsedData.nombrecorto.toUpperCase()
+    }, 0);
   }
 
   catalogoXityPayCta(){
+    return
     this.xpcta = new XpayCuenta
     this.xpayctanro = ''
     this.aliadoNombre = ''
@@ -98,7 +141,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
       }
       
       this.showSpinner = true
-      this.service.getPersonasXpayCuentaConFiltro(filtro,this.ciaopr,xpaycta,cant_registros,page).subscribe((
+      this.service.getPersonasXpayCuentaConFiltroSecured(filtro,this.ciaopr,xpaycta,cant_registros,page).subscribe((
         
         result=>{
           this.showSpinner = false
@@ -108,11 +151,11 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
             this.xpayctanro = xpaycta
             this.dataSource = result
           } else {
-            this.xpayctanro = ''
+            // this.xpayctanro = ''
             this.snack.msgSnackBar('No se encontraron resultados','OK',undefined,'warning')
           }
         }
-      ),error =>{
+      ), (error:HttpErrorResponse) =>{
         this.showSpinner = false
           this.dataSource = new List<personaXpayCuenta>()
           // this.snack.msgSnackBar('No se encontraron resultados','OK',undefined,'warning')
@@ -120,7 +163,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
           this.xpayctanro = xpaycta
         } else {
           console.log(error)
-          this.xpayctanro = ''
+          // this.xpayctanro = ''
         }
       })
     }
@@ -139,7 +182,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
           newUserXpCuenta.ciaopr = this.libEnvService.getConfig().ciaopr.ciaopr
           newUserXpCuenta.alias = personaXpCuenta.persona.tipnip.toUpperCase()+personaXpCuenta.persona.codnip
           newUserXpCuenta.password = Md5.hashStr(personaXpCuenta.persona.codnip)
-          newUserXpCuenta.email_publico = personaXpCuenta.email_not
+          newUserXpCuenta.email_publico = `${Date.now()}${personaXpCuenta.email_not.toUpperCase()}`
           newUserXpCuenta.nropersona = personaXpCuenta.nropersona
           newUserXpCuenta.nro_not_ws = personaXpCuenta.bancocta_telfcodpais+personaXpCuenta.bancocta_telfcodarea+personaXpCuenta.bancocta_telefono
 
@@ -154,7 +197,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
 
   addPersonaXpayCta(persona:PersonaXityPay,newUserXpCuenta:UserView2):void{
     this.showSpinner = true
-    this.service.asignaPersonaXpayCuenta(this.ciaopr, persona).subscribe(
+    this.service.asignaPersonaXpayCuentaSecured(this.ciaopr, persona).subscribe(
       result=>{
         if (result){
           this.creaUsuario(newUserXpCuenta)
@@ -175,7 +218,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
   creaUsuario(user:UserView2):void{
     this.showSpinner = true
     
-    this.serviceUsuario.createUsuario(this.libEnvService.getConfig().ciaopr.ciaopr,user).subscribe({
+    this.serviceUsuario.createUsuarioSecured(this.libEnvService.getConfig().ciaopr.ciaopr,user).subscribe({
       next:(usuario)=>{
         console.log('usuario creado')
         const assignedUser = new XpayUserXCuenta()
@@ -197,7 +240,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
 
   asignaUsuario(assignedUser:XpayUserXCuenta,user:UserView2):void{
     this.showSpinner = true
-    this.service.asignaUsuarioXpayCuenta(this.libEnvService.getConfig().ciaopr.ciaopr,assignedUser).subscribe({
+    this.service.asignaUsuarioXpayCuentaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,assignedUser).subscribe({
       next:()=>{
         this.snack.msgSnackBar(`Usuario ${user.alias} Activado, email de notificación enviado a ${user.email_publico}`,'OK',undefined,'success')
         // this.sendMail(user.email_publico,'Activación de usuario XityPay',`El usuario se ha activado correctamente,<br><br>Debe ingresar utilizando el usuario ${user.alias} y como contraseña inicial, el ID del equipo. El sistema le pedirá cambiarlo en el primer inicio de sesión.<br><br>Equipo XityPay.`)
@@ -235,7 +278,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
           eliminaPersona.xpayctanro = user.xpayctanro?user.xpayctanro:'',
           eliminaPersona.nropersona = user.nropersona?user.nropersona:0
           
-          this.service.eliminaPersonaXityPay(this.ciaopr,eliminaPersona).subscribe(
+          this.service.eliminaPersonaXityPaySecured(this.ciaopr,eliminaPersona).subscribe(
             result=>{
               console.log(result)
               this.buscarPersonasXPayCuenta(user.xpayctanro)
@@ -252,11 +295,11 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
     )
   }
 
-  upsertPersona(nropersona:number):void{
-    this.personaServive.getPersonaViewXNropersona(this.libEnvService.getConfig().ciaopr.ciaopr,nropersona).subscribe({
+   upsertPersona(nropersona:number):void{
+    this.personaServive.getPersonaViewXNropersonaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,nropersona).subscribe({
       next:(persona)=>{
         persona.codnip = `DES ${persona.codnip}`
-        this.personaServive.upserPersona(this.libEnvService.getConfig().ciaopr.ciaopr,persona).subscribe({
+        this.personaServive.upserPersonaSecured(this.libEnvService.getConfig().ciaopr.ciaopr,persona).subscribe({
           next:()=>{
             this.showSpinner = false
             this.buscarPersonasXPayCuenta(this.xpayctanro)
@@ -278,7 +321,7 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
 
   updatePersonaXpayCta(persona:PersonaXityPay):void{
     this.showSpinner = true
-    this.service.asignaPersonaXpayCuenta(this.ciaopr, persona).subscribe(
+    this.service.asignaPersonaXpayCuentaSecured(this.ciaopr, persona).subscribe(
       result=>{
         if (result){
           this.buscarPersonasXPayCuenta(this.xpayctanro)
@@ -432,4 +475,24 @@ export class ActivarPosPecComponent extends CrudImpl implements OnInit{
     this.sendMail('chrisdfh@gmail.com','TEST Email from xitypay','<h1>TEST Email from xitypay</h1><p>TEST Email from xitypay</p>')
   }
 
+}
+
+class miniXPCuenta{
+  xpayctanro: string;
+  email: string;
+  cuenta_transitoria: string;
+  federado_estricto: string;
+  nombre: string;
+  alias: string;
+  email_publico: string;
+  url_avatar1: string;
+  nombrepersjuridica: string;
+  siglaspersjuridica: string;
+  nombrecompleto: string;
+  nombrecorto: string;
+  usr_x_cta: Usrxcta;
+}
+
+interface Usrxcta {
+  rol_1: string;
 }

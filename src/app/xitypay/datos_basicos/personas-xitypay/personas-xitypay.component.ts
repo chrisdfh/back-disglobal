@@ -119,7 +119,7 @@ export class PersonasXitypayComponent extends CrudImpl implements OnInit{
       
       this.showSpinner = true
       // this.service.getPersonasXpayCuenta(this.ciaopr,xpaycta,cant_registros,page).subscribe((
-      this.service.getPersonasXpayCuentaConFiltro(filtro,this.ciaopr,xpaycta,cant_registros,page).subscribe((
+      this.service.getPersonasXpayCuentaConFiltroSecured(filtro,this.ciaopr,xpaycta,cant_registros,page).subscribe((
         
         result=>{
           this.showSpinner = false
@@ -161,7 +161,7 @@ export class PersonasXitypayComponent extends CrudImpl implements OnInit{
           eliminaPersona.xpayctanro = user.xpayctanro?user.xpayctanro:'',
           eliminaPersona.nropersona = user.nropersona?user.nropersona:0
           
-          this.service.eliminaPersonaXityPay(this.ciaopr,eliminaPersona).subscribe(
+          this.service.eliminaPersonaXityPaySecured(this.ciaopr,eliminaPersona).subscribe(
             result=>{
                 console.log(result)
                 this.buscarPersonasXPayCuenta(user.xpayctanro)
@@ -293,7 +293,7 @@ export class PersonasXitypayComponent extends CrudImpl implements OnInit{
 
   addPersonaXpayCta(persona:PersonaXityPay):void{
     this.showSpinner = true
-    this.service.asignaPersonaXpayCuenta(this.ciaopr, persona).subscribe(
+    this.service.asignaPersonaXpayCuentaSecured(this.ciaopr, persona).subscribe(
       result=>{
         if (result){
           this.buscarPersonasXPayCuenta(this.xpayctanro)
